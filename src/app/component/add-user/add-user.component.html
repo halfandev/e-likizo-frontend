@@ -1,0 +1,98 @@
+<div class="abe-admin-register-page">
+  <div class="abe-admin-register-card">
+
+    <div class="abe-admin-register-header">
+      <div class="abe-admin-register-icon">
+        <i class="bi bi-person-plus-fill"></i>
+      </div>
+
+      <h3>Register New User</h3>
+      <p>Create an employee account for e-Likizo</p>
+    </div>
+
+    <div *ngIf="successMessage" class="abe-admin-alert abe-admin-success">
+      <i class="bi bi-check-circle-fill"></i>
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="abe-admin-alert abe-admin-error">
+      <i class="bi bi-exclamation-circle-fill"></i>
+      {{ errorMessage }}
+    </div>
+
+    <form [formGroup]="registrationForm" (ngSubmit)="registerUser()">
+
+      <div class="abe-admin-field">
+        <label for="adminFullName">Full Name</label>
+        <input
+          id="adminFullName"
+          type="text"
+          class="abe-admin-input"
+          formControlName="fullName"
+          placeholder="Enter full name">
+
+        <small *ngIf="registrationForm.controls.fullName.touched &&
+                      registrationForm.controls.fullName.invalid">
+          Full name is required.
+        </small>
+      </div>
+
+      <div class="abe-admin-field">
+        <label for="adminEmail">Email Address</label>
+        <input
+          id="adminEmail"
+          type="email"
+          class="abe-admin-input"
+          formControlName="email"
+          placeholder="employee@company.com">
+
+        <small *ngIf="registrationForm.controls.email.touched &&
+                      registrationForm.controls.email.hasError('required')">
+          Email is required.
+        </small>
+
+        <small *ngIf="registrationForm.controls.email.touched &&
+                      registrationForm.controls.email.hasError('email')">
+          Enter a valid email address.
+        </small>
+      </div>
+
+      <div class="abe-admin-field">
+        <label for="adminRole">User Role</label>
+        <select
+          id="adminRole"
+          class="abe-admin-input"
+          formControlName="role">
+
+          <option value="" disabled>Select user role</option>
+
+          <option *ngFor="let role of roles" [value]="role">
+            {{ role }}
+          </option>
+        </select>
+
+        <small *ngIf="registrationForm.controls.role.touched &&
+                      registrationForm.controls.role.invalid">
+          Please select a role.
+        </small>
+      </div>
+
+      <button
+        type="submit"
+        class="abe-admin-submit"
+        [disabled]="loading">
+
+        <i *ngIf="!loading" class="bi bi-person-check-fill"></i>
+        <span *ngIf="!loading">Create User</span>
+        <span *ngIf="loading">Creating user...</span>
+      </button>
+
+    </form>
+
+    <div class="abe-admin-register-footer">
+      <i class="bi bi-shield-check"></i>
+      User registration is restricted to authorized administrators.
+    </div>
+
+  </div>
+</div>

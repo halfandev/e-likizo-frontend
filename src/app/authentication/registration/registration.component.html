@@ -1,0 +1,117 @@
+<div class="abe-registration-page">
+
+  <div class="abe-registration-card">
+
+    <div class="abe-registration-header">
+      <div class="abe-registration-icon">
+        <i class="bi bi-person-plus"></i>
+      </div>
+
+      <h3>Register New User</h3>
+
+      <p>
+        Enter employee details to create an e-Likizo account.
+      </p>
+    </div>
+
+    <div
+      *ngIf="successMessage"
+      class="abe-alert abe-alert-success">
+      <i class="bi bi-check-circle"></i>
+      {{ successMessage }}
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="abe-alert abe-alert-error">
+      <i class="bi bi-exclamation-circle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <form
+      [formGroup]="registrationForm"
+      (ngSubmit)="register()">
+
+      <div class="abe-form-group">
+        <label for="fullName">Full Name</label>
+
+        <input
+          id="fullName"
+          type="text"
+          formControlName="fullName"
+          class="abe-form-control"
+          placeholder="Enter employee full name">
+
+        <small
+          class="abe-validation-error"
+          *ngIf="
+            registrationForm.controls.fullName.touched &&
+            registrationForm.controls.fullName.invalid
+          ">
+          Full name is required.
+        </small>
+      </div>
+
+      <div class="abe-form-group">
+        <label for="email">Email Address</label>
+
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="abe-form-control"
+          placeholder="employee@company.com">
+
+        <small
+          class="abe-validation-error"
+          *ngIf="
+            registrationForm.controls.email.touched &&
+            registrationForm.controls.email.hasError('required')
+          ">
+          Email address is required.
+        </small>
+
+        <small
+          class="abe-validation-error"
+          *ngIf="
+            registrationForm.controls.email.touched &&
+            registrationForm.controls.email.hasError('email')
+          ">
+          Enter a valid email address.
+        </small>
+      </div>
+
+      <button
+        type="submit"
+        class="abe-register-button"
+        [disabled]="loading">
+
+        <span *ngIf="!loading">
+          <i class="bi bi-person-check"></i>
+          Register User
+        </span>
+
+        <span *ngIf="loading">
+          <span class="abe-spinner"></span>
+          Registering...
+        </span>
+
+      </button>
+
+    </form>
+
+    <p class="abe-registration-note">
+  Login credentials will be sent to the employee's email.
+</p>
+
+<div class="abe-login-link">
+  <span>Already have an account?</span>
+
+  <a routerLink="/login">
+    <i class="bi bi-box-arrow-in-right"></i>
+    Login here
+  </a>
+
+  </div>
+
+</div>

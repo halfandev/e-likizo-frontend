@@ -1,0 +1,175 @@
+
+<div class="container-fluid profile-page">
+
+  <div class="page-heading">
+    <h3>My Profile</h3>
+    <p>Manage your account and password security.</p>
+  </div>
+
+  <div class="row">
+
+    <!-- PROFILE INFORMATION -->
+    <div class="col-lg-5 mb-4">
+      <div class="profile-card">
+
+        <div class="profile-header">
+          <div class="profile-avatar">
+            {{ user?.fullName?.charAt(0) || 'U' }}
+          </div>
+
+          <h4>{{ user?.fullName || 'Employee' }}</h4>
+          <p>e-Likizo User</p>
+        </div>
+
+        <div class="profile-details">
+          <div class="detail-item">
+            <label>Full Name</label>
+            <p>{{ user?.fullName || 'Not available' }}</p>
+          </div>
+
+          <div class="detail-item">
+            <label>Email Address</label>
+            <p>{{ user?.email || 'Not available' }}</p>
+          </div>
+
+          <div class="detail-item">
+            <label>Role</label>
+            <p>{{ user?.role || 'Employee' }}</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CHANGE PASSWORD -->
+    <div class="col-lg-7 mb-4">
+      <div class="profile-card">
+
+        <div class="card-heading">
+          <div class="heading-icon">
+            <i class="bi bi-shield-lock"></i>
+          </div>
+
+          <div>
+            <h4>Change Password</h4>
+            <p>Update your account password securely.</p>
+          </div>
+        </div>
+
+        <div
+          *ngIf="successMessage"
+          class="alert alert-success"
+          role="alert">
+          {{ successMessage }}
+        </div>
+
+        <div
+          *ngIf="errorMessage"
+          class="alert alert-danger"
+          role="alert">
+          {{ errorMessage }}
+        </div>
+
+        <form
+          [formGroup]="passwordForm"
+          (ngSubmit)="changePassword()">
+
+          <div class="form-group">
+            <label for="currentPassword">
+              Current Password
+            </label>
+
+            <input
+              id="currentPassword"
+              type="password"
+              class="form-control"
+              formControlName="currentPassword"
+              placeholder="Enter current password">
+
+            <small
+              class="text-danger"
+              *ngIf="passwordForm.get('currentPassword')?.touched
+              && passwordForm.get('currentPassword')?.hasError('required')">
+              Current password is required.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+
+            <input
+              id="newPassword"
+              type="password"
+              class="form-control"
+              formControlName="newPassword"
+              placeholder="Enter new password">
+
+            <small class="password-hint">
+              Use at least 8 characters.
+            </small>
+
+            <small
+              class="text-danger d-block"
+              *ngIf="passwordForm.get('newPassword')?.touched
+              && passwordForm.get('newPassword')?.hasError('minlength')">
+              Password must contain at least 8 characters.
+            </small>
+
+            <small
+              class="text-danger d-block"
+              *ngIf="passwordForm.get('newPassword')?.touched
+              && passwordForm.get('newPassword')?.hasError('required')">
+              New password is required.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">
+              Confirm New Password
+            </label>
+
+            <input
+              id="confirmPassword"
+              type="password"
+              class="form-control"
+              formControlName="confirmPassword"
+              placeholder="Confirm new password">
+
+            <small
+              class="text-danger d-block"
+              *ngIf="passwordForm.get('confirmPassword')?.touched
+              && passwordForm.get('confirmPassword')?.hasError('required')">
+              Please confirm your new password.
+            </small>
+
+            <small
+              class="text-danger d-block"
+              *ngIf="passwordForm.hasError('passwordsMismatch')
+              && passwordForm.get('confirmPassword')?.touched">
+              New passwords do not match.
+            </small>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary change-password-btn"
+            [disabled]="loading">
+
+            <span *ngIf="!loading">
+              <i class="bi bi-lock"></i>
+              Change Password
+            </span>
+
+            <span *ngIf="loading">
+              Changing password...
+            </span>
+
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+</div>

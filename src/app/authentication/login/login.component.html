@@ -1,0 +1,194 @@
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <!-- Logo and Branding -->
+        <div class="brand-section">
+
+            <div class="brand-icon">
+                <i class="bi bi-shield-lock-fill"></i>
+            </div>
+
+            <h2>e-Likizo</h2>
+
+            <p>Employee Leave Management System</p>
+
+        </div>
+
+        <!-- Login Form -->
+        <form
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+            novalidate>
+
+            <!-- Error Message -->
+            <div class="alert-error" *ngIf="errorMessage">
+                <i class="bi bi-exclamation-circle"></i>
+                {{ errorMessage }}
+            </div>
+
+            <!-- Success Message -->
+            <div class="alert-success" *ngIf="successMessage">
+                <i class="bi bi-check-circle"></i>
+                {{ successMessage }}
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+
+                <label for="email">Email Address</label>
+
+                <div class="input-wrapper">
+
+                    <i class="bi bi-envelope"></i>
+
+                    <input
+                        type="email"
+                        id="email"
+                        formControlName="email"
+                        placeholder="Enter your email"
+                        autocomplete="username"
+                        [class.invalid]="
+              f['email'].invalid &&
+              (f['email'].touched || submitted)
+            " />
+
+                </div>
+
+                <small
+                    class="error-message"
+                    *ngIf="
+            f['email'].hasError('required') &&
+            (f['email'].touched || submitted)
+          ">
+                    Email is required.
+                </small>
+
+                <small
+                    class="error-message"
+                    *ngIf="
+            f['email'].hasError('email') &&
+            !f['email'].hasError('required') &&
+            (f['email'].touched || submitted)
+          ">
+                    Please enter a valid email address.
+                </small>
+
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+
+                <label for="password">Password</label>
+
+                <div class="input-wrapper">
+
+                    <i class="bi bi-lock"></i>
+
+                    <input
+                        [type]="showPassword ? 'text' : 'password'"
+                        id="password"
+                        formControlName="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        [class.invalid]="
+              f['password'].invalid &&
+              (f['password'].touched || submitted)
+            " />
+
+                    <!-- Show/Hide Password -->
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        (click)="showPassword = !showPassword"
+                        [attr.aria-label]="
+              showPassword ? 'Hide password' : 'Show password'
+            ">
+                        <i
+                            [class.bi-eye]="!showPassword"
+                            [class.bi-eye-slash]="showPassword"></i>
+                    </button>
+
+                </div>
+
+                <small
+                    class="error-message"
+                    *ngIf="
+            f['password'].hasError('required') &&
+            (f['password'].touched || submitted)
+          ">
+                    Password is required.
+                </small>
+
+                <small
+                    class="error-message"
+                    *ngIf="
+            f['password'].hasError('minlength') &&
+            !f['password'].hasError('required') &&
+            (f['password'].touched || submitted)
+          ">
+                    Password must contain at least 8 characters.
+                </small>
+
+            </div>
+
+            <!-- Forgot Password -->
+            <div class="form-options">
+
+                <a
+                    routerLink="/forgot-password"
+                    class="forgot-link">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+            <!-- Sign In Button -->
+
+            <button type="submit" class="login-button" [disabled]="loading">
+
+                <span *ngIf="!loading">
+                    Sign In
+                    <i class="bi bi-arrow-right"></i>
+                </span>
+
+                <span *ngIf="loading">
+                    <i class="bi bi-arrow-repeat spinning"></i>
+                    Please wait...
+                </span>
+
+            </button>
+
+            <!-- Register Link -->
+            <div class="register-section">
+
+                <span>Don't have an account?</span>
+
+                <a
+                    routerLink="/register"
+                    class="register-link">
+                    Register
+                </a>
+
+            </div>
+
+        </form>
+
+        <!-- Footer -->
+        <div class="login-footer">
+
+            <p>
+                <i class="bi bi-shield-check"></i>
+                Secure Employee Portal
+            </p>
+
+            <small>
+                &copy; 2026 e-Likizo System
+            </small>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,83 @@
+<aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
+  <div class="sidebar-header">
+    <a class="brand-mark" href="index.html" aria-label="adminHMD dashboard">
+      <span class="brand-icon"><i class="bi bi-grid-1x2-fill"
+          aria-hidden="true"></i></span>
+      <span class="brand-copy">
+        <span class="brand-title">adminHMD</span>
+        <span class="brand-subtitle">Admin Template</span>
+      </span>
+    </a>
+  </div>
+
+  
+<nav class="sidebar-nav">
+
+  <!-- Dashboard -->
+  <a
+    class="nav-link"
+    routerLink="/dashboard"
+    *ngIf="isAdmin">
+    <span class="nav-icon">
+      <i class="bi bi-speedometer2"></i>
+    </span>
+    <span class="nav-text">Admin Dashboard</span>
+  </a>
+
+  <a
+    class="nav-link"
+    routerLink="/hr-dashboard"
+    *ngIf="isHR">
+    <span class="nav-icon">
+      <i class="bi bi-speedometer2"></i>
+    </span>
+    <span class="nav-text">HR Dashboard</span>
+  </a>
+
+  <a
+    class="nav-link"
+    routerLink="/employee/dashboard"
+    *ngIf="isEmployee">
+    <span class="nav-icon">
+      <i class="bi bi-speedometer2"></i>
+    </span>
+    <span class="nav-text">Employee Dashboard</span>
+  </a>
+
+  <!-- Admin only -->
+  <a
+    class="nav-link"
+    routerLink="/users"
+    *ngIf="isAdmin">
+    <span class="nav-icon">
+      <i class="bi bi-people"></i>
+    </span>
+    <span class="nav-text">Users</span>
+  </a>
+
+  <a
+    class="nav-link"
+    routerLink="/add-user"
+    *ngIf="isAdmin">
+    <span class="nav-icon">
+      <i class="bi bi-person-plus"></i>
+    </span>
+    <span class="nav-text">Add User</span>
+  </a>
+
+  <!-- Shared Profile -->
+  <a class="nav-link" routerLink="/profile">
+    <span class="nav-icon">
+      <i class="bi bi-person-circle"></i>
+    </span>
+    <span class="nav-text">Profile</span>
+  </a>
+
+</nav>
+
+
+  <div class="sidebar-footer">
+    <span class="status-dot"></span>
+    <span class="sidebar-footer-text">System running smoothly</span>
+  </div>
+</aside>

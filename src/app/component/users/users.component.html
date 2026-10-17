@@ -1,0 +1,251 @@
+
+<div class="user-management">
+
+  <!-- Page Header -->
+  <div class="page-heading">
+    <div>
+      <h2>User Management</h2>
+      <p>Manage employees, account access and online activity.</p>
+    </div>
+
+    <button
+      type="button"
+      class="refresh-btn"
+      (click)="loadUsers()"
+      [disabled]="loading || processingUserId !== null">
+
+      <span *ngIf="!loading">↻ Refresh</span>
+      <span *ngIf="loading">Loading...</span>
+    </button>
+  </div>
+
+  <!-- Success Message -->
+  <div
+    class="alert-message success-message"
+    *ngIf="successMessage"
+    role="status">
+
+    {{ successMessage }}
+
+    <button
+      type="button"
+      class="close-message"
+      (click)="successMessage = ''"
+      aria-label="Close message">
+      &times;
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div
+    class="alert-message error-message"
+    *ngIf="errorMessage"
+    role="alert">
+
+    {{ errorMessage }}
+
+    <button
+      type="button"
+      class="close-message"
+      (click)="errorMessage = ''"
+      aria-label="Close message">
+      &times;
+    </button>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards">
+
+    <div class="summary-card total-card">
+      <div class="summary-info">
+        <span>Total Users</span>
+        <h2>{{ totalUsers }}</h2>
+      </div>
+
+      <div class="summary-icon">👥</div>
+    </div>
+
+    <div class="summary-card online-card">
+      <div class="summary-info">
+        <span>Online Users</span>
+        <h2>{{ onlineCount }}</h2>
+      </div>
+
+      <div class="summary-icon">●</div>
+    </div>
+
+    <div class="summary-card offline-card">
+      <div class="summary-info">
+        <span>Offline Users</span>
+        <h2>{{ offlineCount }}</h2>
+      </div>
+
+      <div class="summary-icon">○</div>
+    </div>
+
+  </div>
+
+  <!-- Users Table -->
+  <div class="table-panel">
+
+    <div class="table-heading">
+      <div>
+        <h3>All Employees</h3>
+        <p>View and manage registered user accounts.</p>
+      </div>
+
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search name, email or role..."
+        [(ngModel)]="searchTerm"
+        aria-label="Search users">
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-message" *ngIf="loading">
+      Loading user information...
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive" *ngIf="!loading">
+
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Account Status</th>
+            <th>Online Status</th>
+            <th>Online Duration</th>
+            <!-- <th>Last Login</th> -->
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="let user of filteredUsers; let i = index">
+
+            <td>{{ i + 1 }}</td>
+
+            <td class="user-name">
+              {{ user.fullName }}
+            </td>
+
+            <td>{{ user.email }}</td>
+
+            <td>
+              <span class="role-badge">
+                {{ user.role }}
+              </span>
+            </td>
+
+            <!-- Enabled / Disabled -->
+            <td>
+              <span
+                class="account-badge"
+                [ngClass]="user.enabled ? 'enabled' : 'disabled'">
+
+                {{ user.enabled ? 'Enabled' : 'Disabled' }}
+              </span>
+            </td>
+
+            <!-- Online / Offline -->
+            <td>
+              <span
+                class="status-badge"
+                [ngClass]="isOnline(user) ? 'online' : 'offline'">
+
+                <span class="status-dot"></span>
+
+                {{ isOnline(user) ? 'ONLINE' : 'OFFLINE' }}
+              </span>
+            </td>
+
+            <!-- Online Duration -->
+            <td>
+              <ng-container *ngIf="isOnline(user); else offlineDuration">
+                {{ getOnlineDuration(user) }} min
+              </ng-container>
+
+              <ng-template #offlineDuration>
+                <span class="muted-text">—</span>
+              </ng-template>
+            </td>
+
+            <!-- Last Login -->
+            <!-- <td>
+              <ng-container *ngIf="user.lastLogin; else neverLoggedIn">
+                {{ user.lastLogin | date:'dd/MM/yyyy HH:mm' }}
+              </ng-container>
+
+              <ng-template #neverLoggedIn>
+                <span class="muted-text">Never</span>
+              </ng-template>
+            </td> -->
+
+            <!-- Enable / Disable Actions -->
+            <td class="action-cell">
+
+              <button
+                *ngIf="user.enabled"
+                type="button"
+                class="action-btn disable-btn"
+                [disabled]="processingUserId !== null"
+                (click)="disableUser(user)">
+
+                <ng-container
+                  *ngIf="processingUserId === user.id; else disableLabel">
+                  Processing...
+                </ng-container>
+
+                <ng-template #disableLabel>
+                  Disable
+                </ng-template>
+              </button>
+
+              <button
+                *ngIf="!user.enabled"
+                type="button"
+                class="action-btn enable-btn"
+                [disabled]="processingUserId !== null"
+                (click)="enableUser(user)">
+
+                <ng-container
+                  *ngIf="processingUserId === user.id; else enableLabel">
+                  Processing...
+                </ng-container>
+
+                <ng-template #enableLabel>
+                  Enable
+                </ng-template>
+              </button>
+
+            </td>
+
+          </tr>
+
+          <!-- Empty Results -->
+          <tr *ngIf="filteredUsers.length === 0">
+            <td colspan="9" class="empty-message">
+              No users found.
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+    <!-- Table Footer -->
+    <div class="table-footer" *ngIf="!loading">
+      Showing {{ filteredUsers.length }} of {{ totalUsers }} users
+    </div>
+
+  </div>
+
+</div>

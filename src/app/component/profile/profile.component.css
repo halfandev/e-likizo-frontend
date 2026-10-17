@@ -1,0 +1,177 @@
+
+.profile-page {
+  padding: 12px;
+  background: #f4f6f9;
+  min-height: 100%;
+}
+
+.page-heading {
+  margin-bottom: 14px;
+}
+
+.page-heading h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 4px;
+}
+
+.page-heading p,
+.profile-header p,
+.card-heading p {
+  color: #6c757d;
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.profile-card {
+  height: 100%;
+  background: #fff;
+  border-radius: 7px;
+  padding: 16px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+
+.profile-header {
+  text-align: center;
+  padding: 8px 0 15px;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.profile-avatar {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #007bff;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.profile-header h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.profile-details {
+  padding-top: 8px;
+}
+
+.detail-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item label,
+.form-group label {
+  display: block;
+  color: #343a40;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.detail-item p {
+  font-size: 13px;
+  margin-bottom: 0;
+  color: #6c757d;
+  overflow-wrap: anywhere;
+}
+
+.card-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.heading-icon {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: #e8f1ff;
+  color: #007bff;
+  font-size: 18px;
+}
+
+.card-heading h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-control {
+  min-height: 36px;
+  height: 36px;
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.password-hint {
+  display: block;
+  margin-top: 4px;
+  color: #6c757d;
+  font-size: 11px;
+}
+
+.text-danger {
+  font-size: 11px;
+}
+
+.alert {
+  padding: 8px 10px;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.change-password-btn {
+  min-height: 36px;
+  padding: 7px 14px;
+  font-size: 13px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.change-password-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+@media (max-width: 576px) {
+  .profile-page {
+    padding: 8px;
+  }
+
+  .profile-card {
+    padding: 13px;
+  }
+
+  .change-password-btn {
+    width: 100%;
+  }
+}
