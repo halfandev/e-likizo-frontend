@@ -1,0 +1,403 @@
+
+<div class="content-wrapper employee-page">
+
+  <!-- Page Header -->
+  <section class="content-header employee-header">
+    <div>
+      <span class="page-eyebrow">HUMAN RESOURCE MANAGEMENT</span>
+      <h1>
+        <i class="fa fa-user-plus"></i>
+        Employee Registration
+      </h1>
+      <p class="page-description">
+        Register a new employee and assign their work location.
+      </p>
+    </div>
+
+    <ol class="breadcrumb">
+      <li><a routerLink="/dashboard">Dashboard</a></li>
+      <li><a routerLink="/employees">Employees</a></li>
+      <li class="active">Registration</li>
+    </ol>
+  </section>
+
+  <section class="content">
+
+    <!-- Alerts -->
+    <div class="alert alert-success custom-alert"
+         *ngIf="successMessage">
+      <i class="fa fa-check-circle"></i>
+      <span>{{ successMessage }}</span>
+    </div>
+
+    <div class="alert alert-danger custom-alert"
+         *ngIf="errorMessage">
+      <i class="fa fa-exclamation-circle"></i>
+      <span>{{ errorMessage }}</span>
+    </div>
+
+    <!-- Registration Card -->
+    <div class="employee-card">
+
+      <div class="employee-card-header">
+        <div class="header-icon">
+  <i class="fa-solid fa-user-plus"></i>
+        </div>
+
+        <div>
+            
+          <h3>New Employee Details</h3>
+          <p>Complete the required information below.</p>
+        </div>
+
+        <span class="required-note">
+          <span class="required-star">*</span> Required fields
+        </span>
+      </div>
+
+      <form [formGroup]="employeeForm"
+            (ngSubmit)="onSubmit()"
+            novalidate>
+
+        <div class="employee-card-body">
+
+          <!-- Section 1 -->
+          <div class="form-section">
+
+            <div class="section-heading">
+              <span class="section-icon">
+                <i class="fa fa-user"></i>
+              </span>
+
+              <div>
+                <h4>Personal Information</h4>
+                <p>Enter the employee's personal details.</p>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-6 form-group">
+                <label for="checknumber">
+                  Check Number <span class="required-star">*</span>
+                </label>
+
+                <input
+                  id="checknumber"
+                  type="text"
+                  class="form-control"
+                  formControlName="checknumber"
+                  placeholder="Enter check number"
+                  autocomplete="off">
+
+                <small class="field-error"
+                       *ngIf="submitted &&
+                       employeeForm.get('checknumber')?.invalid">
+                  Check number is required.
+                </small>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label for="forcenumber">
+                  Force Number <span class="required-star">*</span>
+                </label>
+
+                <input
+                  id="forcenumber"
+                  type="text"
+                  class="form-control"
+                  formControlName="forcenumber"
+                  placeholder="Enter force number"
+                  autocomplete="off">
+
+                <small class="field-error"
+                       *ngIf="submitted &&
+                       employeeForm.get('forcenumber')?.invalid">
+                  Force number is required.
+                </small>
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label for="firstname">
+                  First Name <span class="required-star">*</span>
+                </label>
+
+                <input
+                  id="firstname"
+                  type="text"
+                  class="form-control"
+                  formControlName="firstname"
+                  placeholder="Enter first name"
+                  autocomplete="given-name">
+
+                <small class="field-error"
+                       *ngIf="submitted &&
+                       employeeForm.get('firstname')?.invalid">
+                  First name is required.
+                </small>
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label for="middlename">Middle Name</label>
+
+                <input
+                  id="middlename"
+                  type="text"
+                  class="form-control"
+                  formControlName="middlename"
+                  placeholder="Enter middle name"
+                  autocomplete="additional-name">
+              </div>
+
+              <div class="col-md-4 form-group">
+                <label for="lastname">
+                  Last Name <span class="required-star">*</span>
+                </label>
+
+                <input
+                  id="lastname"
+                  type="text"
+                  class="form-control"
+                  formControlName="lastname"
+                  placeholder="Enter last name"
+                  autocomplete="family-name">
+
+                <small class="field-error"
+                       *ngIf="submitted &&
+                       employeeForm.get('lastname')?.invalid">
+                  Last name is required.
+                </small>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label for="email">
+                  Email Address <span class="required-star">*</span>
+                </label>
+
+                <div class="input-with-icon">
+                  <i class="fa fa-envelope-o"></i>
+
+                  <input
+                    id="email"
+                    type="email"
+                    class="form-control"
+                    formControlName="email"
+                    placeholder="employee@example.com"
+                    autocomplete="email">
+                </div>
+
+                <small class="field-error"
+                       *ngIf="submitted &&
+                       employeeForm.get('email')?.hasError('required')">
+                  Email address is required.
+                </small>
+
+                <small class="field-error"
+                       *ngIf="submitted &&
+                       employeeForm.get('email')?.hasError('email')">
+                  Please enter a valid email address.
+                </small>
+              </div>
+
+              <div class="col-md-3 form-group">
+                <label for="gender">
+                  Gender <span class="required-star">*</span>
+                </label>
+
+                <select
+                  id="gender"
+                  class="form-control"
+                  formControlName="gender">
+
+                  <option value="">Select gender</option>
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+
+                </select>
+
+                <small class="field-error"
+                       *ngIf="submitted &&
+                       employeeForm.get('gender')?.invalid">
+                  Please select a gender.
+                </small>
+              </div>
+
+              <div class="col-md-3 form-group">
+                <label for="rank">
+                  Rank <span class="required-star">*</span>
+                </label>
+
+                <select
+                  id="rank"
+                  class="form-control"
+                  formControlName="rank">
+
+                  <option value="">Select rank</option>
+
+                  <option *ngFor="let rank of ranks"
+                          [value]="rank">
+                    {{ rank }}
+                  </option>
+
+                </select>
+
+                <small class="field-error"
+                       *ngIf="submitted &&
+                       employeeForm.get('rank')?.invalid">
+                  Please select a rank.
+                </small>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section 2 -->
+          <div class="form-section location-section">
+
+            <div class="section-heading">
+              <span class="section-icon location-icon">
+                <i class="fa fa-map-marker"></i>
+              </span>
+
+              <div>
+                <h4>Work Location</h4>
+                <p>
+                  Select the administrative area and assigned station.
+                </p>
+              </div>
+            </div>
+
+            <div class="location-info">
+              <i class="fa fa-info-circle"></i>
+              Select each location in order. The available options
+              depend on your previous selection.
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-6 form-group">
+                <label for="administrativeId">
+                  Administrative <span class="required-star">*</span>
+                </label>
+
+                <select
+                  id="administrativeId"
+                  class="form-control"
+                  formControlName="administrativeId">
+
+                  <option [ngValue]="null">
+                    Select administrative
+                  </option>
+
+                  <option *ngFor="let item of administratives"
+                          [ngValue]="item.id">
+                    {{ item.name }}
+                  </option>
+
+                </select>
+
+                <small class="field-error"
+                       *ngIf="submitted &&
+                       employeeForm.get('administrativeId')?.invalid">
+                  Please select an administrative area.
+                </small>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label for="regionId">Region</label>
+
+                <select
+                  id="regionId"
+                  class="form-control"
+                  formControlName="regionId">
+
+                  <option [ngValue]="null">Select region</option>
+
+                  <option *ngFor="let item of regions"
+                          [ngValue]="item.id">
+                    {{ item.name }}
+                  </option>
+
+                </select>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label for="districtId">District</label>
+
+                <select
+                  id="districtId"
+                  class="form-control"
+                  formControlName="districtId">
+
+                  <option [ngValue]="null">Select district</option>
+
+                  <option *ngFor="let item of districts"
+                          [ngValue]="item.id">
+                    {{ item.name }}
+                  </option>
+
+                </select>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <label for="stationId">Station</label>
+
+                <select
+                  id="stationId"
+                  class="form-control"
+                  formControlName="stationId">
+
+                  <option [ngValue]="null">Select station</option>
+
+                  <option *ngFor="let item of stations"
+                          [ngValue]="item.id">
+                    {{ item.name }}
+                  </option>
+
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Form Footer -->
+        <div class="employee-card-footer">
+
+          <button
+            type="button"
+            class="btn btn-cancel"
+            (click)="cancel()"
+            [disabled]="loading">
+
+            <i class="fa fa-times"></i>
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-submit"
+            [disabled]="loading">
+
+            <i class="fa"
+               [ngClass]="loading
+                 ? 'fa-spinner fa-spin'
+                 : 'fa-floppy-o'">
+            </i>
+
+            {{ loading ? 'Registering...' : 'Register Employee' }}
+          </button>
+
+        </div>
+
+      </form>
+    </div>
+
+    <p class="page-footer-note">
+      <i class="fa fa-lock"></i>
+      Employee information is managed by authorized personnel.
+    </p>
+
+  </section>
+</div>

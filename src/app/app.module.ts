@@ -25,6 +25,8 @@ import { AdministrativesComponent } from './component/administratives/administra
 import { RegionsComponent } from './component/regions/regions.component';
 import { DistrictsComponent } from './component/districts/districts.component';
 import { StationsComponent } from './component/stations/stations.component';
+import { EmployeesComponent } from './component/employees/employees.component';
+import { AddEmployeeComponent } from './component/add-employee/add-employee.component';
 
 
 @NgModule({
@@ -49,6 +51,8 @@ import { StationsComponent } from './component/stations/stations.component';
     RegionsComponent,
     DistrictsComponent,
     StationsComponent,
+    EmployeesComponent,
+    AddEmployeeComponent,
   ],
   imports: [
     BrowserModule,

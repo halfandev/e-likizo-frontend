@@ -16,6 +16,8 @@ import { AdministrativesComponent } from './component/administratives/administra
 import { RegionsComponent } from './component/regions/regions.component';
 import { DistrictsComponent } from './component/districts/districts.component';
 import { StationsComponent } from './component/stations/stations.component';
+import { EmployeesComponent } from './component/employees/employees.component';
+import { AddEmployeeComponent } from './component/add-employee/add-employee.component';
 
 const routes: Routes = [
   {
@@ -88,11 +90,28 @@ const routes: Routes = [
 
       {
         path: 'admin/stations',
-        component:StationsComponent ,
+        component: StationsComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ADMIN'] }
       },
-
+      {
+        path: 'employees',
+        component: EmployeesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'HR'] }
+      },
+      {
+        path: 'add-employee',
+        component: AddEmployeeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'HR'] }
+      },
+      {
+        path: 'edit-employee/:id',
+        component: AddEmployeeComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'HR'] }
+      },
 
 
 
