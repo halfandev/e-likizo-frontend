@@ -24,4 +24,21 @@ export class AdminSidebarComponent {
   get isEmployee(): boolean {
     return this.currentUser?.role?.toUpperCase() === 'EMPLOYEE';
   }
+
+
+  
+isAdministrativeMenuOpen = false;
+
+toggleAdministrativeMenu(): void {
+  this.isAdministrativeMenuOpen = !this.isAdministrativeMenuOpen;
+}
+
+
+isUserMenuOpen = false;
+
+toggleUserMenu(): void {
+  this.isUserMenuOpen = !this.isUserMenuOpen;
+}
+
+
 }

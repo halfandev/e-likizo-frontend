@@ -11,6 +11,11 @@ import { ForgotPasswordComponent } from './authentication/forgot-password/forgot
 import { AuthGuard } from './auth/auth.guard';
 import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
 import { HrdashboradComponent } from './component/hrdashborad/hrdashborad.component';
+import { EmployeeDashboardComponent } from './component/employee-dashboard/employee-dashboard.component';
+import { AdministrativesComponent } from './component/administratives/administratives.component';
+import { RegionsComponent } from './component/regions/regions.component';
+import { DistrictsComponent } from './component/districts/districts.component';
+import { StationsComponent } from './component/stations/stations.component';
 
 const routes: Routes = [
   {
@@ -45,15 +50,52 @@ const routes: Routes = [
 
       },
 
-      {path:"hr-dashboard",
-        component:HrdashboradComponent,
+      {
+        path: "hr-dashboard",
+        component: HrdashboradComponent,
         canActivate: [AuthGuard],
         data: { roles: ['HR'] }
 
+      },
 
- 
+      {
+        path: "employee-dashboard",
+        component: EmployeeDashboardComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['EMPLOYEE'] }
 
       },
+      {
+        path: 'admin/administratives',
+        component: AdministrativesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN'] }
+
+      },
+
+      {
+        path: 'admin/regions',
+        component: RegionsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN'] }
+      },
+      {
+        path: 'admin/districts',
+        component: DistrictsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN'] }
+      },
+
+      {
+        path: 'admin/stations',
+        component:StationsComponent ,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN'] }
+      },
+
+
+
+
       // {
       //   path: '',
       //   redirectTo: 'login',
@@ -69,7 +111,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "register", component: RegistrationComponent },
   { path: "forgot-password", component: ForgotPasswordComponent },
-  {path:"reset-password",component:ResetPasswordComponent}
+  { path: "reset-password", component: ResetPasswordComponent }
 ];
 
 @NgModule({

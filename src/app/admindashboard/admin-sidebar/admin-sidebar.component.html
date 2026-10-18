@@ -10,71 +10,175 @@
     </a>
   </div>
 
-  
-<nav class="sidebar-nav">
+  <nav class="sidebar-nav">
 
-  <!-- Dashboard -->
-  <a
-    class="nav-link"
-    routerLink="/dashboard"
-    *ngIf="isAdmin">
-    <span class="nav-icon">
-      <i class="bi bi-speedometer2"></i>
-    </span>
-    <span class="nav-text">Admin Dashboard</span>
-  </a>
+    <!-- Dashboard -->
+    <a
+      class="nav-link"
+      routerLink="/dashboard"
+      *ngIf="isAdmin">
+      <span class="nav-icon">
+        <i class="bi bi-speedometer2"></i>
+      </span>
+      <span class="nav-text">Admin Dashboard</span>
+    </a>
 
-  <a
-    class="nav-link"
-    routerLink="/hr-dashboard"
-    *ngIf="isHR">
-    <span class="nav-icon">
-      <i class="bi bi-speedometer2"></i>
-    </span>
-    <span class="nav-text">HR Dashboard</span>
-  </a>
+    <a
+      class="nav-link"
+      routerLink="/hr-dashboard"
+      *ngIf="isHR">
+      <span class="nav-icon">
+        <i class="bi bi-speedometer2"></i>
+      </span>
+      <span class="nav-text">HR Dashboard</span>
+    </a>
 
-  <a
-    class="nav-link"
-    routerLink="/employee/dashboard"
-    *ngIf="isEmployee">
-    <span class="nav-icon">
-      <i class="bi bi-speedometer2"></i>
-    </span>
-    <span class="nav-text">Employee Dashboard</span>
-  </a>
+    <a
+      class="nav-link"
+      routerLink="/employee-dashboard"
+      *ngIf="isEmployee">
+      <span class="nav-icon">
+        <i class="bi bi-speedometer2"></i>
+      </span>
+      <span class="nav-text">Employee Dashboard</span>
+    </a>
 
-  <!-- Admin only -->
-  <a
-    class="nav-link"
-    routerLink="/users"
-    *ngIf="isAdmin">
+   
+<!-- User Management Dropdown: Admin Only -->
+<div class="nav-dropdown" *ngIf="isAdmin">
+
+  <button
+    type="button"
+    class="nav-link nav-dropdown-toggle"
+    (click)="toggleUserMenu()"
+    [attr.aria-expanded]="isUserMenuOpen"
+    aria-controls="userManagementSubmenu">
+
     <span class="nav-icon">
       <i class="bi bi-people"></i>
     </span>
-    <span class="nav-text">Users</span>
-  </a>
 
-  <a
-    class="nav-link"
-    routerLink="/add-user"
-    *ngIf="isAdmin">
-    <span class="nav-icon">
+    <span class="nav-text">User Management</span>
+
+    <span class="dropdown-arrow">
+      <i
+        class="bi"
+        [ngClass]="isUserMenuOpen
+          ? 'bi-chevron-up'
+          : 'bi-chevron-down'">
+      </i>
+    </span>
+  </button>
+
+  <!-- User Management Submenu -->
+  <div
+    class="nav-submenu"
+    id="userManagementSubmenu"
+    *ngIf="isUserMenuOpen">
+
+    <a
+      class="nav-link submenu-link"
+      routerLink="/users"
+      routerLinkActive="active">
+
+      <i class="bi bi-people"></i>
+      <span>Users</span>
+    </a>
+
+    <a
+      class="nav-link submenu-link"
+      routerLink="/add-user"
+      routerLinkActive="active">
+
       <i class="bi bi-person-plus"></i>
-    </span>
-    <span class="nav-text">Add User</span>
-  </a>
+      <span>Add User</span>
+    </a>
 
-  <!-- Shared Profile -->
-  <a class="nav-link" routerLink="/profile">
-    <span class="nav-icon">
-      <i class="bi bi-person-circle"></i>
-    </span>
-    <span class="nav-text">Profile</span>
-  </a>
+  </div>
+</div>
 
-</nav>
 
+    <!-- Shared Profile -->
+    <!-- <a class="nav-link" routerLink="/profile">
+      <span class="nav-icon">
+        <i class="bi bi-person-circle"></i>
+      </span>
+      <span class="nav-text">Profile</span>
+    </a> -->
+
+    <!-- Administrative Dropdown: Admin Only -->
+    <div class="nav-dropdown" *ngIf="isAdmin">
+
+      <button
+        type="button"
+        class="nav-link nav-dropdown-toggle"
+        (click)="toggleAdministrativeMenu()"
+        [attr.aria-expanded]="isAdministrativeMenuOpen"
+        aria-controls="administrativeSubmenu">
+
+        <span class="nav-icon">
+          <i class="bi bi-diagram-3"></i>
+        </span>
+
+        <span class="nav-text">Administrative</span>
+
+        <span class="dropdown-arrow">
+          <i
+            class="bi"
+            [ngClass]="isAdministrativeMenuOpen
+          ? 'bi-chevron-up'
+          : 'bi-chevron-down'">
+          </i>
+        </span>
+      </button>
+
+      <!-- Submenu -->
+      <div
+        class="nav-submenu"
+        id="administrativeSubmenu"
+        *ngIf="isAdministrativeMenuOpen">
+
+        <a
+          class="nav-link submenu-link"
+          routerLink="/admin/administratives"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
+
+          <i class="bi bi-building"></i>
+          <span>Administrative</span>
+        </a>
+
+        <a
+          class="nav-link submenu-link"
+          routerLink="/admin/regions"
+          routerLinkActive="active">
+
+          <i class="bi bi-geo-alt"></i>
+          <span>Regions</span>
+        </a>
+
+        <a
+          class="nav-link submenu-link"
+          routerLink="/admin/districts"
+          routerLinkActive="active">
+
+          <i class="bi bi-map"></i>
+          <span>Districts</span>
+        </a>
+
+        <a
+          class="nav-link submenu-link"
+          routerLink="/admin/stations"
+          routerLinkActive="active">
+
+          <i class="bi bi-houses"></i>
+          <span>Stations</span>
+        </a>
+
+      </div>
+    </div>
+
+  </nav>
 
   <div class="sidebar-footer">
     <span class="status-dot"></span>

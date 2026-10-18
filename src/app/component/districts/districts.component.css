@@ -1,0 +1,298 @@
+
+:host {
+  display: block;
+}
+
+.district-page {
+  color: #344054;
+}
+
+.page-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #1d2939;
+}
+
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.search-box {
+  position: relative;
+  width: 280px;
+  max-width: 100%;
+}
+
+.search-box i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #98a2b3;
+}
+
+.search-box input {
+  padding-left: 36px;
+  min-height: 40px;
+  border-color: #e4e7ec;
+  border-radius: 7px;
+}
+
+.district-table {
+  min-width: 950px;
+}
+
+.district-table thead th {
+  padding: 15px 16px;
+  background: #f9fafb;
+  color: #667085;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+  border-bottom: 1px solid #eaecf0;
+  white-space: nowrap;
+}
+
+.district-table tbody td {
+  padding: 15px 16px;
+  font-size: 0.88rem;
+  border-bottom-color: #f0f1f3;
+}
+
+.district-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 190px;
+}
+
+.name-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 1rem;
+}
+
+.code-badge {
+  display: inline-block;
+  background: #f2f4f7;
+  color: #344054;
+  border-radius: 5px;
+  padding: 5px 9px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.region-name {
+  color: #475467;
+  white-space: nowrap;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-active {
+  color: #027a48;
+  background: #ecfdf3;
+}
+
+.status-inactive {
+  color: #667085;
+  background: #f2f4f7;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+}
+
+.btn-edit {
+  background: #eff6ff;
+  color: #175cd3;
+  border: 1px solid #d1e0ff;
+}
+
+.btn-edit:hover {
+  background: #dbeafe;
+  color: #1849a9;
+}
+
+.btn-delete {
+  background: #fff1f0;
+  color: #d92d20;
+  border: 1px solid #fecdca;
+}
+
+.btn-delete:hover {
+  background: #fee4e2;
+  color: #b42318;
+}
+
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 55px 20px;
+}
+
+.empty-state > i {
+  font-size: 2.5rem;
+  color: #98a2b3;
+}
+
+.card-footer {
+  padding: 13px 16px;
+  border-top: 1px solid #eaecf0;
+}
+
+/* District modal only */
+.district-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1055;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: rgba(16, 24, 40, 0.55);
+  padding: 12px;
+}
+
+.district-modal-backdrop .modal-dialog {
+  max-width: 400px;
+  width: 100%;
+  margin: 20px auto;
+}
+
+.district-modal-backdrop .modal-content {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(16, 24, 40, 0.18);
+  animation: districtModalAppear 0.18s ease-out;
+}
+
+.district-modal-backdrop .modal-header {
+  padding: 13px 17px;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.district-modal-backdrop .modal-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #101828;
+}
+
+.district-modal-backdrop .modal-body {
+  padding: 16px 17px;
+}
+
+.district-modal-backdrop .modal-body .mb-3 {
+  margin-bottom: 11px !important;
+}
+
+.district-modal-backdrop .modal-body .form-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #344054;
+  margin-bottom: 5px;
+}
+
+.district-modal-backdrop .modal-body .form-control,
+.district-modal-backdrop .modal-body .form-select {
+  min-height: 36px;
+  padding: 7px 10px;
+  font-size: 0.84rem;
+  border-radius: 6px;
+}
+
+.district-modal-backdrop .modal-body textarea.form-control {
+  min-height: 65px;
+}
+
+.district-modal-backdrop .modal-body .form-control:focus,
+.district-modal-backdrop .modal-body .form-select:focus {
+  border-color: #84adff;
+  box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.1);
+}
+
+.district-modal-backdrop .modal-footer {
+  padding: 11px 17px;
+  border-top: 1px solid #eaecf0;
+  gap: 8px;
+}
+
+.district-modal-backdrop .modal-footer .btn {
+  padding: 7px 12px;
+  font-size: 0.82rem;
+  border-radius: 6px;
+}
+
+@keyframes districtModalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 576px) {
+  .page-title {
+    font-size: 1.2rem;
+  }
+
+  .page-header > button {
+    width: 100%;
+  }
+
+  .search-box {
+    width: 100%;
+    flex: 1;
+  }
+
+  .district-modal-backdrop {
+    padding: 8px;
+  }
+
+  .district-modal-backdrop .modal-dialog {
+    max-width: 360px;
+    width: 100%;
+    margin: 12px auto;
+  }
+
+  .district-modal-backdrop .modal-header,
+  .district-modal-backdrop .modal-body,
+  .district-modal-backdrop .modal-footer {
+    padding: 12px 14px;
+  }
+}

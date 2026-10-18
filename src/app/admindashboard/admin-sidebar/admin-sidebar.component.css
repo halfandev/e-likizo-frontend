@@ -1,0 +1,67 @@
+
+/* Administrative dropdown */
+.nav-dropdown {
+  width: 100%;
+}
+
+.nav-dropdown-toggle {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nav-dropdown-toggle .dropdown-arrow {
+  margin-left: auto;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+
+/* Submenu container */
+.nav-submenu {
+  margin: 4px 0 8px 0;
+  padding-left: 18px;
+  border-left: 2px solid rgba(128, 128, 128, 0.25);
+  margin-left: 22px;
+}
+
+/* Individual submenu links */
+.nav-submenu .submenu-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin: 2px 0;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-submenu .submenu-link i {
+  width: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Hover */
+.nav-submenu .submenu-link:hover {
+  background: rgba(128, 128, 128, 0.12);
+}
+
+/* Active route */
+.nav-submenu .submenu-link.active {
+  background: rgba(13, 110, 253, 0.12);
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/* Keep dropdown button consistent with sidebar links */
+.nav-dropdown-toggle:focus-visible {
+  outline: 2px solid #0d6efd;
+  outline-offset: -2px;
+}

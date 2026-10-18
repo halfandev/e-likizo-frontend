@@ -1,0 +1,306 @@
+
+<div class="district-page container-fluid py-3">
+
+  <div class="page-header d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+      <h2 class="page-title mb-1">District Management</h2>
+      <p class="text-muted mb-0">Manage districts and their regions.</p>
+    </div>
+
+    <button type="button" class="btn btn-primary"
+            (click)="openCreateModal()">
+      <i class="bi bi-plus-lg me-2"></i>
+      Add District
+    </button>
+  </div>
+
+  <div *ngIf="successMessage"
+       class="alert alert-success alert-dismissible fade show">
+    {{ successMessage }}
+    <button type="button" class="btn-close"
+            (click)="successMessage = ''"></button>
+  </div>
+
+  <div *ngIf="errorMessage && !modalOpen"
+       class="alert alert-danger alert-dismissible fade show">
+    {{ errorMessage }}
+    <button type="button" class="btn-close"
+            (click)="errorMessage = ''"></button>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+
+    <div class="card-header bg-white border-0 p-3">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+          <h5 class="mb-1 fw-bold">Districts</h5>
+          <small class="text-muted">
+            Total: {{ filteredDistricts.length }} district(s)
+          </small>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text"
+                   class="form-control"
+                   placeholder="Search districts..."
+                   [(ngModel)]="searchTerm">
+          </div>
+
+          <button type="button"
+                  class="btn btn-outline-secondary"
+                  title="Refresh"
+                  (click)="loadDistricts()">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table district-table align-middle mb-0">
+        <thead>
+          <tr>
+            <!-- <th>#</th> -->
+            <th>DISTRICT NAME</th>
+            <th>CODE</th>
+            <th>REGION</th>
+            <th>STATUS</th>
+            <th>CREATED BY</th>
+            <th class="text-center">ACTIONS</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="7" class="loading-state">
+              <span class="spinner-border spinner-border-sm text-primary me-2"></span>
+              Loading districts...
+            </td>
+          </tr>
+
+          <tr *ngIf="!loading && filteredDistricts.length === 0">
+            <td colspan="7" class="empty-state">
+              <i class="bi bi-geo-alt d-block mb-2"></i>
+              <h6 class="fw-bold">No districts found</h6>
+              <p class="text-muted mb-0">
+                Add a district or change your search.
+              </p>
+            </td>
+          </tr>
+
+          <tr *ngFor="let district of filteredDistricts; let i = index">
+            <!-- <td>{{ i + 1 }}</td> -->
+
+            <td>
+              <div class="name-cell">
+                <div class="name-icon">
+                  <i class="bi bi-geo"></i>
+                </div>
+                <div>
+                  <div class="fw-semibold">{{ district.name }}</div>
+                  <small class="text-muted">
+                    {{ district.description || 'No description' }}
+                  </small>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <span class="code-badge">{{ district.code }}</span>
+            </td>
+
+            <td>
+              <span class="region-name">
+                <i class="bi bi-map me-1"></i>
+                {{ district.regionName || '—' }}
+              </span>
+            </td>
+
+            <td>
+              <span class="status-badge"
+                    [ngClass]="district.active ? 'status-active' : 'status-inactive'">
+                <span class="status-dot"></span>
+                {{ district.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+
+            <td>{{ district.createdBy || '—' }}</td>
+
+            <td>
+              <div class="action-buttons">
+                <button type="button"
+                        class="btn btn-sm btn-edit"
+                        title="Edit district"
+                        (click)="openEditModal(district)">
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+
+                <button type="button"
+                        class="btn btn-sm btn-delete"
+                        title="Delete district"
+                        (click)="deleteDistrict(district)">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-footer bg-white">
+      <small class="text-muted">
+        Showing {{ filteredDistricts.length }} of {{ districts.length }} district(s)
+      </small>
+    </div>
+  </div>
+</div>
+
+<!-- District Add/Edit Modal -->
+<div *ngIf="modalOpen"
+     class="district-modal-backdrop"
+     (click)="onBackdropClick($event)">
+
+  <div class="modal-dialog">
+    <div class="modal-content bg-white">
+
+      <div class="modal-header d-flex justify-content-between align-items-start">
+        <div>
+          <h5 class="modal-title mb-1">
+            {{ selectedId !== null ? 'Edit District' : 'Add District' }}
+          </h5>
+          <small class="text-muted">
+            {{ selectedId !== null
+              ? 'Update district information.'
+              : 'Enter the new district details.' }}
+          </small>
+        </div>
+
+        <button type="button"
+                class="btn-close"
+                [disabled]="saving"
+                aria-label="Close"
+                (click)="closeModal()"></button>
+      </div>
+
+      <form [formGroup]="districtForm" (ngSubmit)="saveDistrict()">
+        <div class="modal-body">
+
+          <div *ngIf="errorMessage"
+               class="alert alert-danger py-2 small">
+            {{ errorMessage }}
+          </div>
+
+          <div class="mb-3">
+            <label for="districtName" class="form-label">
+              District Name <span class="text-danger">*</span>
+            </label>
+
+            <input id="districtName"
+                   type="text"
+                   class="form-control"
+                   formControlName="name"
+                   placeholder="Enter district name"
+                   [class.is-invalid]="hasError('name')">
+
+            <div class="invalid-feedback">
+              District name is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="districtCode" class="form-label">
+              District Code <span class="text-danger">*</span>
+            </label>
+
+            <input id="districtCode"
+                   type="text"
+                   class="form-control"
+                   formControlName="code"
+                   placeholder="e.g. DST001"
+                   [class.is-invalid]="hasError('code')">
+
+            <div class="invalid-feedback">
+              District code is required.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="regionId" class="form-label">
+              Region <span class="text-danger">*</span>
+            </label>
+
+            <select id="regionId"
+                    class="form-select"
+                    formControlName="regionId"
+                    [class.is-invalid]="hasError('regionId')">
+
+              <option value="">-- Select Region --</option>
+
+              <option *ngFor="let region of regions"
+                      [value]="region.id">
+                {{ region.name }} ({{ region.code }})
+              </option>
+            </select>
+
+            <div class="invalid-feedback">
+              Please select a Region.
+            </div>
+
+            <small *ngIf="regions.length === 0" class="text-muted">
+              No Regions available. Create a Region first.
+            </small>
+          </div>
+
+          <div class="mb-3">
+            <label for="districtDescription" class="form-label">
+              Description
+            </label>
+
+            <textarea id="districtDescription"
+                      class="form-control"
+                      formControlName="description"
+                      rows="2"
+                      placeholder="Description (optional)"></textarea>
+          </div>
+
+          <div class="form-check">
+            <input id="districtActive"
+                   type="checkbox"
+                   class="form-check-input"
+                   formControlName="active">
+
+            <label for="districtActive" class="form-check-label">
+              Active District
+            </label>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-light border"
+                  [disabled]="saving"
+                  (click)="closeModal()">
+            Cancel
+          </button>
+
+          <button type="submit"
+                  class="btn btn-primary"
+                  [disabled]="saving">
+            <span *ngIf="saving"
+                  class="spinner-border spinner-border-sm me-2"></span>
+
+            <i *ngIf="!saving" class="bi bi-check2-circle me-1"></i>
+
+            {{ saving ? 'Saving...' :
+              (selectedId !== null ? 'Update District' : 'Save District') }}
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

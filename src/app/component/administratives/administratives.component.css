@@ -1,0 +1,278 @@
+
+:host {
+  display: block;
+}
+
+.administrative-page {
+  color: #344054;
+}
+
+.page-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #1d2939;
+}
+
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.search-box {
+  position: relative;
+  width: 280px;
+  max-width: 100%;
+}
+
+.search-box i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #98a2b3;
+}
+
+.search-box input {
+  padding-left: 36px;
+  min-height: 40px;
+  border-color: #e4e7ec;
+  border-radius: 7px;
+}
+
+.admin-table {
+  min-width: 850px;
+}
+
+.admin-table thead th {
+  padding: 15px 16px;
+  background: #f9fafb;
+  color: #667085;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+  border-bottom: 1px solid #eaecf0;
+  white-space: nowrap;
+}
+
+.admin-table tbody td {
+  padding: 15px 16px;
+  font-size: 0.88rem;
+  border-bottom-color: #f0f1f3;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 190px;
+}
+
+.name-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 1rem;
+}
+
+.code-badge {
+  display: inline-block;
+  background: #f2f4f7;
+  color: #344054;
+  border-radius: 5px;
+  padding: 5px 9px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.description-cell {
+  max-width: 220px;
+  color: #667085;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-active {
+  color: #027a48;
+  background: #ecfdf3;
+}
+
+.status-inactive {
+  color: #667085;
+  background: #f2f4f7;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+}
+
+.btn-edit {
+  background: #eff6ff;
+  color: #175cd3;
+  border: 1px solid #d1e0ff;
+}
+
+.btn-edit:hover {
+  background: #dbeafe;
+  color: #1849a9;
+}
+
+.btn-delete {
+  background: #fff1f0;
+  color: #d92d20;
+  border: 1px solid #fecdca;
+}
+
+.btn-delete:hover {
+  background: #fee4e2;
+  color: #b42318;
+}
+
+.loading-state,
+.empty-state {
+  text-align: center;
+  padding: 55px 20px;
+}
+
+.empty-state > i {
+  font-size: 2.5rem;
+  color: #98a2b3;
+}
+
+.card-footer {
+  padding: 13px 16px;
+  border-top: 1px solid #eaecf0;
+}
+
+/* Modal popup */
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  z-index: 1055;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: rgba(16, 24, 40, 0.55);
+  padding: 16px;
+}
+
+.modal-backdrop-custom .modal-dialog {
+  max-width: 540px;
+  width: 100%;
+  margin: 30px auto;
+}
+
+.modal-backdrop-custom .modal-content {
+  border-radius: 12px;
+  overflow: hidden;
+  animation: modalAppear 0.18s ease-out;
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #101828;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid #eaecf0;
+}
+
+.modal-body .form-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #344054;
+}
+
+.modal-body .form-control {
+  min-height: 42px;
+  border-radius: 7px;
+}
+
+.modal-body textarea.form-control {
+  min-height: 90px;
+}
+
+.modal-body .form-control:focus {
+  border-color: #84adff;
+  box-shadow: 0 0 0 3px rgba(47, 111, 237, 0.1);
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 576px) {
+  .page-title {
+    font-size: 1.2rem;
+  }
+
+  .page-header > button {
+    width: 100%;
+  }
+
+  .search-box {
+    width: 100%;
+    flex: 1;
+  }
+
+  .modal-backdrop-custom {
+    padding: 8px;
+  }
+
+  .modal-backdrop-custom .modal-dialog {
+    margin: 15px auto;
+  }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: 16px;
+  }
+}

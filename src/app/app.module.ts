@@ -20,6 +20,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ResetPasswordComponent } from './component/reset-password/reset-password.component';
 import { HrdashboradComponent } from './component/hrdashborad/hrdashborad.component';
+import { EmployeeDashboardComponent } from './component/employee-dashboard/employee-dashboard.component';
+import { AdministrativesComponent } from './component/administratives/administratives.component';
+import { RegionsComponent } from './component/regions/regions.component';
+import { DistrictsComponent } from './component/districts/districts.component';
+import { StationsComponent } from './component/stations/stations.component';
 
 
 @NgModule({
@@ -39,6 +44,11 @@ import { HrdashboradComponent } from './component/hrdashborad/hrdashborad.compon
     ForgotPasswordComponent,
     ResetPasswordComponent,
     HrdashboradComponent,
+    EmployeeDashboardComponent,
+    AdministrativesComponent,
+    RegionsComponent,
+    DistrictsComponent,
+    StationsComponent,
   ],
   imports: [
     BrowserModule,
