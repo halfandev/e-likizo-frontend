@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -7,7 +8,6 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./admin-sidebar.component.css']
 })
 export class AdminSidebarComponent {
-
 
   currentUser = this.authService.getUser();
 
@@ -25,20 +25,24 @@ export class AdminSidebarComponent {
     return this.currentUser?.role?.toUpperCase() === 'EMPLOYEE';
   }
 
+  // User Management dropdown
+  isUserMenuOpen = false;
 
-  
-isAdministrativeMenuOpen = false;
+  toggleUserMenu(): void {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
 
-toggleAdministrativeMenu(): void {
-  this.isAdministrativeMenuOpen = !this.isAdministrativeMenuOpen;
-}
+  // Employee Management dropdown
+  isEmployeeMenuOpen = false;
 
+  toggleEmployeeMenu(): void {
+    this.isEmployeeMenuOpen = !this.isEmployeeMenuOpen;
+  }
 
-isUserMenuOpen = false;
+  // Administrative dropdown
+  isAdministrativeMenuOpen = false;
 
-toggleUserMenu(): void {
-  this.isUserMenuOpen = !this.isUserMenuOpen;
-}
-
-
+  toggleAdministrativeMenu(): void {
+    this.isAdministrativeMenuOpen = !this.isAdministrativeMenuOpen;
+  }
 }

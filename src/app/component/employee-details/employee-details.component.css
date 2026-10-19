@@ -1,0 +1,407 @@
+
+/* =========================================
+   EMPLOYEE DETAILS PAGE
+========================================= */
+
+.employee-details-page {
+  padding: 16px 20px;
+  min-height: 100vh;
+  background: #f5f7fb;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   PAGE HEADER
+========================================= */
+
+.profile-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.profile-page-header h2 {
+  margin: 0 0 4px;
+  color: #243047;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.profile-page-header p {
+  margin: 0;
+  color: #7b8495;
+  font-size: 12px;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 12px;
+  color: #475569;
+  background: #ffffff;
+  border: 1px solid #dce2eb;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+  color: #243047;
+  background: #eef2f7;
+  border-color: #cbd5e1;
+}
+
+/* =========================================
+   EMPLOYEE SUMMARY CARD
+========================================= */
+
+.profile-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  background: #ffffff;
+  border: 1px solid #e5eaf2;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(30, 41, 59, 0.04);
+  box-sizing: border-box;
+}
+
+/* Employee avatar */
+
+.avatar-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  color: #3159b8;
+  background: #e8efff;
+  border-radius: 50%;
+  font-size: 23px;
+}
+
+/* Summary text */
+
+.profile-summary-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-summary-text h3 {
+  margin: 0 0 5px;
+  color: #243047;
+  font-size: 16px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.profile-summary-text p {
+  margin: 0 0 6px;
+  color: #6b7280;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.summary-separator {
+  padding: 0 5px;
+  color: #c0c6d1;
+}
+
+/* Profile label */
+
+.profile-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 7px;
+  color: #16834a;
+  background: #e8f7ee;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Edit button */
+
+.edit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  flex-shrink: 0;
+  padding: 8px 12px;
+  color: #ffffff;
+  background: #3159b8;
+  border: 1px solid #3159b8;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.edit-button:hover {
+  background: #24479b;
+  border-color: #24479b;
+}
+
+/* =========================================
+   PROFILE CARDS GRID
+   Two cards per row on desktop
+========================================= */
+
+.profile-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+/* =========================================
+   INDIVIDUAL PROFILE CARD
+========================================= */
+
+.profile-section {
+  min-width: 0;
+  padding: 16px;
+  margin: 0;
+  background: #ffffff;
+  border: 1px solid #e5eaf2;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(30, 41, 59, 0.04);
+  box-sizing: border-box;
+}
+
+/* =========================================
+   CARD HEADING
+========================================= */
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+/* Icon colors */
+
+.personal-icon {
+  color: #3159b8;
+  background: #edf2ff;
+}
+
+.employment-icon {
+  color: #16834a;
+  background: #e8f7ee;
+}
+
+.location-icon {
+  color: #b7791f;
+  background: #fff5df;
+}
+
+.section-heading h4 {
+  margin: 0 0 3px;
+  color: #263247;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.section-heading p {
+  margin: 0;
+  color: #8992a2;
+  font-size: 10px;
+}
+
+/* =========================================
+   INFORMATION FIELDS GRID
+   Two columns inside each card
+========================================= */
+
+.profile-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 14px;
+  align-items: start;
+}
+
+/* Individual field */
+
+.profile-field {
+  min-width: 0;
+}
+
+.profile-field label {
+  display: block;
+  margin-bottom: 4px;
+  color: #8992a2;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.profile-field p {
+  margin: 0;
+  color: #344054;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* =========================================
+   LOADING AND ERROR STATES
+========================================= */
+
+.profile-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 16px;
+  color: #667085;
+  background: #ffffff;
+  border: 1px solid #e5eaf2;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.profile-error {
+  justify-content: flex-start;
+  color: #b42318;
+  background: #fef3f2;
+  border-color: #fecdca;
+}
+
+.spinning-icon {
+  display: inline-block;
+  animation: profile-spin 1s linear infinite;
+}
+
+@keyframes profile-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .employee-details-page {
+    padding: 14px;
+  }
+
+  .profile-cards-grid {
+    gap: 12px;
+  }
+
+  .profile-section {
+    padding: 13px;
+  }
+
+  .profile-fields-grid {
+    gap: 14px 10px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .employee-details-page {
+    padding: 10px;
+  }
+
+  .profile-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .profile-page-header h2 {
+    font-size: 18px;
+  }
+
+  .profile-summary-card {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .avatar-circle {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .profile-summary-text {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .profile-summary-text h3 {
+    font-size: 14px;
+  }
+
+  .edit-button {
+    width: 100%;
+  }
+
+  /* Stack profile cards vertically on mobile */
+
+  .profile-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .profile-section {
+    padding: 13px;
+  }
+
+  .profile-fields-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 10px;
+  }
+}
+
+/* =========================================
+   VERY SMALL SCREENS
+========================================= */
+
+@media (max-width: 360px) {
+  .profile-fields-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-back {
+    white-space: normal;
+  }
+}

@@ -563,3 +563,8 @@
     padding: 12px 14px;
   }
 }
+
+ .btn-back {
+    align-self: flex-start;
+  }
+

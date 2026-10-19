@@ -1,1 +1,103 @@
-<p>employees works!</p>
+
+
+<div class="employee-list-page">
+
+  <div class="page-header">
+    <div>
+      <h2>Employees</h2>
+      <p>Manage and view registered employee profiles.</p>
+    </div>
+
+    <button class="btn btn-primary" (click)="addEmployee()">
+      <i class="bi bi-person-plus"></i>
+      Add Employee
+    </button>
+  </div>
+
+  <div class="employee-list-card">
+
+    <div class="list-toolbar">
+      <div>
+        <h5>All Employees</h5>
+        <small>{{ filteredEmployees.length }} employee(s) found</small>
+      </div>
+
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input
+          type="text"
+          placeholder="Search name, check number or email..."
+          (input)="onSearch($event)">
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="status-message">
+      <span class="spinner-border spinner-border-sm"></span>
+      Loading employees...
+    </div>
+
+    <div *ngIf="!loading && errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+      <button class="btn btn-sm btn-outline-danger ms-2"
+              (click)="loadEmployees()">
+        Retry
+      </button>
+    </div>
+
+    <div class="table-responsive"
+         *ngIf="!loading && !errorMessage">
+
+      <table class="table employee-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Check Number</th>
+            <th>Force Number</th>
+            <th>Employee Name</th>
+            <th>Email</th>
+            <th>Rank</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let employee of filteredEmployees; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ employee.checknumber }}</td>
+            <td>{{ employee.forcenumber }}</td>
+
+            <td>
+              {{ employee.firstname }}
+              {{ employee.middlename }}
+              {{ employee.lastname }}
+            </td>
+
+            <td>{{ employee.email }}</td>
+
+            <td>
+              <span class="rank-badge">{{ employee.rank }}</span>
+            </td>
+
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                (click)="viewEmployee(employee.id)">
+                <i class="bi bi-eye"></i>
+                View
+              </button>
+            </td>
+          </tr>
+
+          <tr *ngIf="filteredEmployees.length === 0">
+            <td colspan="7" class="empty-state">
+              <i class="bi bi-person-x"></i>
+              <p>No employees found.</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,230 @@
+
+<div class="employee-details-page">
+
+  <!-- =====================================
+       PAGE HEADER
+  ====================================== -->
+  <div class="profile-page-header">
+    <div>
+      <h2>Employee Details</h2>
+      <p>View employee profile and employment information</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-back"
+      (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+      Back to Employees
+    </button>
+  </div>
+
+  <!-- =====================================
+       LOADING STATE
+  ====================================== -->
+  <div class="profile-status" *ngIf="loading">
+    <i class="bi bi-arrow-repeat spinning-icon"></i>
+    Loading employee information...
+  </div>
+
+  <!-- =====================================
+       ERROR STATE
+  ====================================== -->
+  <div
+    class="profile-status profile-error"
+    *ngIf="!loading && errorMessage">
+
+    <i class="bi bi-exclamation-circle"></i>
+    {{ errorMessage }}
+
+  </div>
+
+  <!-- =====================================
+       EMPLOYEE PROFILE CONTENT
+  ====================================== -->
+  <ng-container *ngIf="!loading && employee as emp">
+
+    <!-- EMPLOYEE SUMMARY -->
+    <div class="profile-summary-card">
+
+      <div class="avatar-circle">
+        <i class="bi bi-person-fill"></i>
+      </div>
+
+      <div class="profile-summary-text">
+        <h3>
+          {{ emp.firstname }}
+          {{ emp.middlename || '' }}
+          {{ emp.lastname }}
+        </h3>
+
+        <p>
+          <i class="bi bi-briefcase"></i>
+          {{ emp.rank || 'Rank not assigned' }}
+          <span class="summary-separator">|</span>
+          Check No: {{ emp.checknumber }}
+        </p>
+
+        <span class="profile-label">
+          <i class="bi bi-person-check"></i>
+          Employee Profile
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="edit-button"
+        (click)="editEmployee()">
+
+        <i class="bi bi-pencil-square"></i>
+        Edit Profile
+
+      </button>
+
+    </div>
+
+    <!-- =====================================
+         PROFILE CARDS GRID
+    ====================================== -->
+    <div class="profile-cards-grid">
+
+      <!-- =====================================
+           PERSONAL INFORMATION
+      ====================================== -->
+      <section class="profile-section">
+
+        <div class="section-heading">
+          <div class="section-icon personal-icon">
+            <i class="bi bi-person-vcard"></i>
+          </div>
+
+          <div>
+            <h4>Personal Information</h4>
+            <p>Employee personal details</p>
+          </div>
+        </div>
+
+        <div class="profile-fields-grid">
+
+          <div class="profile-field">
+            <label>First Name</label>
+            <p>{{ emp.firstname || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>Middle Name</label>
+            <p>{{ emp.middlename || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>Last Name</label>
+            <p>{{ emp.lastname || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>Email Address</label>
+            <p>{{ emp.email || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>Gender</label>
+            <p>{{ emp.gender || '—' }}</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================
+           EMPLOYMENT INFORMATION
+      ====================================== -->
+      <section class="profile-section">
+
+        <div class="section-heading">
+          <div class="section-icon employment-icon">
+            <i class="bi bi-briefcase"></i>
+          </div>
+
+          <div>
+            <h4>Employment Information</h4>
+            <p>Employee identification and rank</p>
+          </div>
+        </div>
+
+        <div class="profile-fields-grid">
+
+          <div class="profile-field">
+            <label>Check Number</label>
+            <p>{{ emp.checknumber || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>Force Number</label>
+            <p>{{ emp.forcenumber || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>Rank</label>
+            <p>{{ emp.rank || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>Administrative</label>
+            <p>{{ emp.administrative || '—' }}</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================
+           WORK LOCATION
+      ====================================== -->
+      <section class="profile-section">
+
+        <div class="section-heading">
+          <div class="section-icon location-icon">
+            <i class="bi bi-geo-alt"></i>
+          </div>
+
+          <div>
+            <h4>Work Location</h4>
+            <p>Employee work station and location</p>
+          </div>
+        </div>
+
+        <div class="profile-fields-grid">
+
+          <div class="profile-field">
+            <label>Administrative</label>
+            <p>{{ emp.administrative || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>Region</label>
+            <p>{{ emp.region || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>District</label>
+            <p>{{ emp.district || '—' }}</p>
+          </div>
+
+          <div class="profile-field">
+            <label>Station</label>
+            <p>{{ emp.station || '—' }}</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================
+           LEAVE INFORMATION - FUTURE SECTION
+      ====================================== -->
+      <!--
+      Baadaye tunaweza kuongeza Leave Information hapa,
+      kwa kutumia class profile-section ileile.
+      -->
+
+    </div>
+  </ng-container>
+
+</div>

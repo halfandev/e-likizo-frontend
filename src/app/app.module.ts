@@ -27,6 +27,8 @@ import { DistrictsComponent } from './component/districts/districts.component';
 import { StationsComponent } from './component/stations/stations.component';
 import { EmployeesComponent } from './component/employees/employees.component';
 import { AddEmployeeComponent } from './component/add-employee/add-employee.component';
+import { EmployeeDetailsComponent } from './component/employee-details/employee-details.component';
+import { EditEmployeeComponent } from './component/edit-employee/edit-employee.component';
 
 
 @NgModule({
@@ -53,6 +55,8 @@ import { AddEmployeeComponent } from './component/add-employee/add-employee.comp
     StationsComponent,
     EmployeesComponent,
     AddEmployeeComponent,
+    EmployeeDetailsComponent,
+    EditEmployeeComponent,
   ],
   imports: [
     BrowserModule,

@@ -18,63 +18,82 @@ import { DistrictsComponent } from './component/districts/districts.component';
 import { StationsComponent } from './component/stations/stations.component';
 import { EmployeesComponent } from './component/employees/employees.component';
 import { AddEmployeeComponent } from './component/add-employee/add-employee.component';
+import { EmployeeDetailsComponent } from './component/employee-details/employee-details.component';
+import { EditEmployeeComponent } from './component/edit-employee/edit-employee.component';
+
 
 const routes: Routes = [
+  // Ukifungua application, nenda login
   {
-    path: "", component: MainlayoutComponent, children: [
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+
+  // Authentication routes - nje ya MainlayoutComponent
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegistrationComponent
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
+  },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent
+  },
+
+  // Main application layout
+  {
+    path: '',
+    component: MainlayoutComponent,
+    children: [
       {
-        path: "dashboard",
+        path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ADMIN'] }
-
       },
       {
-        path: "users",
+        path: 'users',
         component: UsersComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ADMIN'] }
-
-
       },
       {
-        path: "add-user",
+        path: 'add-user',
         component: AddUserComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ADMIN'] }
-
-
       },
       {
-        path: "profile",
+        path: 'profile',
         component: ProfileComponent,
         canActivate: [AuthGuard]
-
       },
-
       {
-        path: "hr-dashboard",
+        path: 'hr-dashboard',
         component: HrdashboradComponent,
         canActivate: [AuthGuard],
         data: { roles: ['HR'] }
-
       },
-
       {
-        path: "employee-dashboard",
+        path: 'employee-dashboard',
         component: EmployeeDashboardComponent,
         canActivate: [AuthGuard],
         data: { roles: ['EMPLOYEE'] }
-
       },
       {
         path: 'admin/administratives',
         component: AdministrativesComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ADMIN'] }
-
       },
-
       {
         path: 'admin/regions',
         component: RegionsComponent,
@@ -87,7 +106,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['ADMIN'] }
       },
-
       {
         path: 'admin/stations',
         component: StationsComponent,
@@ -108,30 +126,26 @@ const routes: Routes = [
       },
       {
         path: 'edit-employee/:id',
-        component: AddEmployeeComponent,
+        component: EditEmployeeComponent,
         canActivate: [AuthGuard],
         data: { roles: ['ADMIN', 'HR'] }
       },
-
-
-
-      // {
-      //   path: '',
-      //   redirectTo: 'login',
-      //   pathMatch: 'full'
-      // },
       {
-        path: '**',
-        redirectTo: 'login'
-      }
+        path: 'employee-details/:id',
+        component: EmployeeDetailsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN', 'HR'] }
+      },
     ]
   },
 
-  { path: "login", component: LoginComponent },
-  { path: "register", component: RegistrationComponent },
-  { path: "forgot-password", component: ForgotPasswordComponent },
-  { path: "reset-password", component: ResetPasswordComponent }
+  // URL isiyojulikana irudi login
+  {
+    path: '**',
+    redirectTo: 'login'
+  }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

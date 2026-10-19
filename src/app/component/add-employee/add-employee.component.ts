@@ -230,4 +230,8 @@ export class AddEmployeeComponent implements OnInit {
   cancel(): void {
     this.router.navigate(['/employees']);
   }
+  goBack(){
+        this.router.navigate(['/employees']);
+
+  }
 }

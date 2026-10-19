@@ -44,6 +44,7 @@
     </a>
 
    
+
 <!-- User Management Dropdown: Admin Only -->
 <div class="nav-dropdown" *ngIf="isAdmin">
 
@@ -70,7 +71,6 @@
     </span>
   </button>
 
-  <!-- User Management Submenu -->
   <div
     class="nav-submenu"
     id="userManagementSubmenu"
@@ -80,7 +80,6 @@
       class="nav-link submenu-link"
       routerLink="/users"
       routerLinkActive="active">
-
       <i class="bi bi-people"></i>
       <span>Users</span>
     </a>
@@ -89,31 +88,63 @@
       class="nav-link submenu-link"
       routerLink="/add-user"
       routerLinkActive="active">
-
       <i class="bi bi-person-plus"></i>
       <span>Add User</span>
     </a>
+
+  </div>
+</div>
+
+<!-- Employee Management Dropdown: Admin Only -->
+<div class="nav-dropdown" *ngIf="isAdmin">
+
+  <button
+    type="button"
+    class="nav-link nav-dropdown-toggle"
+    (click)="toggleEmployeeMenu()"
+    [attr.aria-expanded]="isEmployeeMenuOpen"
+    aria-controls="employeeManagementSubmenu">
+
+    <span class="nav-icon">
+      <i class="bi bi-person-vcard"></i>
+    </span>
+
+    <span class="nav-text">Employee Management</span>
+
+    <span class="dropdown-arrow">
+      <i
+        class="bi"
+        [ngClass]="isEmployeeMenuOpen
+          ? 'bi-chevron-up'
+          : 'bi-chevron-down'">
+      </i>
+    </span>
+  </button>
+
+  <div
+    class="nav-submenu"
+    id="employeeManagementSubmenu"
+    *ngIf="isEmployeeMenuOpen">
 
     <a
       class="nav-link submenu-link"
       routerLink="/employees"
       routerLinkActive="active">
-
-      <i class="bi bi-person-plus"></i>
-      <span>employees</span>
+      <i class="bi bi-people"></i>
+      <span>Employees</span>
     </a>
 
-    <a
+    <!-- <a
       class="nav-link submenu-link"
       routerLink="/add-employee"
       routerLinkActive="active">
-
       <i class="bi bi-person-plus"></i>
-      <span>add employees</span>
-    </a>
+      <span>Add Employee</span>
+    </a> -->
 
   </div>
 </div>
+
 
 
     <!-- Shared Profile -->
