@@ -71,10 +71,10 @@ export class LoginComponent {
 
           if (response.role?.toUpperCase() === 'ADMIN') {
             window.location.href = '/dashboard';
-          } else if(response.role?.toUpperCase()=='EMPLOYEE') {
+          } else if (response.role?.toUpperCase() == 'EMPLOYEE') {
             window.location.href = '/employee-dashboard';
-          }else{
-            window.location.href='/hr-dashboard'
+          } else {
+            window.location.href = '/hr-dashboard'
           }
 
         },

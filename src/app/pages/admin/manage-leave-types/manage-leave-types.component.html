@@ -1,0 +1,463 @@
+
+<div class="leave-types-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h2>Manage Leave Types</h2>
+      <p>Manage the types of leave available in the e-Likizo system.</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="openAddForm()">
+      <i class="bi bi-plus-lg"></i>
+      Add Leave Type
+    </button>
+  </div>
+
+  <!-- Success Message -->
+  <div
+    *ngIf="successMessage"
+    class="alert alert-success"
+    role="status">
+    <i class="bi bi-check-circle"></i>
+    {{ successMessage }}
+
+    <button
+      type="button"
+      class="alert-close"
+      aria-label="Close message"
+      (click)="successMessage = ''">
+      &times;
+    </button>
+  </div>
+
+  <!-- Page Error Message -->
+  <div
+    *ngIf="errorMessage"
+    class="alert alert-danger"
+    role="alert">
+    <i class="bi bi-exclamation-circle"></i>
+    {{ errorMessage }}
+
+    <button
+      type="button"
+      class="alert-close"
+      aria-label="Close message"
+      (click)="errorMessage = ''">
+      &times;
+    </button>
+  </div>
+
+  <!-- ==================================
+       ADD / EDIT MODAL
+  =================================== -->
+  <div
+    class="modal-overlay"
+    *ngIf="showForm"
+    (click)="cancelForm()">
+
+    <div
+      class="modal-container"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="leaveTypeModalTitle"
+      (click)="$event.stopPropagation()">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-title-wrapper">
+          <div class="modal-icon">
+            <i
+              class="bi"
+              [ngClass]="editingId !== null
+                ? 'bi-pencil-square'
+                : 'bi-calendar2-plus'">
+            </i>
+          </div>
+
+          <div>
+            <h3 id="leaveTypeModalTitle">
+              {{ editingId !== null
+                ? 'Edit Leave Type'
+                : 'Add Leave Type' }}
+            </h3>
+
+            <p>
+              {{ editingId !== null
+                ? 'Update the selected leave type details.'
+                : 'Fill in the details to create a new leave type.' }}
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="modal-close"
+          aria-label="Close modal"
+          [disabled]="saving"
+          (click)="cancelForm()">
+          &times;
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+
+        <!-- Modal Error -->
+        <div
+          *ngIf="modalErrorMessage"
+          class="alert alert-danger"
+          role="alert">
+          <i class="bi bi-exclamation-triangle"></i>
+          {{ modalErrorMessage }}
+        </div>
+
+        <form
+          [formGroup]="leaveTypeForm"
+          (ngSubmit)="saveLeaveType()">
+
+          <div class="form-grid">
+
+            <!-- Code -->
+            <div class="form-group">
+              <label for="code">
+                Leave Code <span class="required">*</span>
+              </label>
+
+              <input
+                id="code"
+                type="text"
+                formControlName="code"
+                placeholder="e.g. ANNUAL"
+                maxlength="50"
+                autocomplete="off"
+                [class.invalid-input]="
+                  leaveTypeForm.controls.code.touched &&
+                  leaveTypeForm.controls.code.invalid
+                ">
+
+              <small
+                class="field-error"
+                *ngIf="leaveTypeForm.controls.code.touched &&
+                  leaveTypeForm.controls.code.hasError('required')">
+                Leave code is required.
+              </small>
+
+              <small
+                class="field-error"
+                *ngIf="leaveTypeForm.controls.code.touched &&
+                  leaveTypeForm.controls.code.hasError('maxlength')">
+                Code must not exceed 50 characters.
+              </small>
+            </div>
+
+            <!-- Leave Name -->
+            <div class="form-group">
+              <label for="name">
+                Leave Name <span class="required">*</span>
+              </label>
+
+              <input
+                id="name"
+                type="text"
+                formControlName="name"
+                placeholder="e.g. Annual Leave"
+                maxlength="100"
+                [class.invalid-input]="
+                  leaveTypeForm.controls.name.touched &&
+                  leaveTypeForm.controls.name.invalid
+                ">
+
+              <small
+                class="field-error"
+                *ngIf="leaveTypeForm.controls.name.touched &&
+                  leaveTypeForm.controls.name.hasError('required')">
+                Leave name is required.
+              </small>
+
+              <small
+                class="field-error"
+                *ngIf="leaveTypeForm.controls.name.touched &&
+                  leaveTypeForm.controls.name.hasError('maxlength')">
+                Leave name must not exceed 100 characters.
+              </small>
+            </div>
+
+            <!-- Default Days -->
+            <div class="form-group">
+              <label for="defaultDays">
+                Default Days <span class="required">*</span>
+              </label>
+
+              <input
+                id="defaultDays"
+                type="number"
+                min="1"
+                step="1"
+                formControlName="defaultDays"
+                [class.invalid-input]="
+                  leaveTypeForm.controls.defaultDays.touched &&
+                  leaveTypeForm.controls.defaultDays.invalid
+                ">
+
+              <small
+                class="field-error"
+                *ngIf="leaveTypeForm.controls.defaultDays.touched &&
+                  leaveTypeForm.controls.defaultDays.invalid">
+                Enter a whole number of at least 1 day.
+              </small>
+            </div>
+
+            <!-- Supporting Document -->
+            <div class="form-group document-field">
+              <label>Supporting Document</label>
+
+              <label
+                for="requiresDocument"
+                class="document-checkbox">
+
+                <input
+                  id="requiresDocument"
+                  type="checkbox"
+                  formControlName="requiresDocument">
+
+                <span>
+                  Document required
+                  <small>
+                    Employee must attach supporting documents.
+                  </small>
+                </span>
+              </label>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group full-width">
+              <label for="description">
+                Description
+              </label>
+
+              <textarea
+                id="description"
+                rows="3"
+                formControlName="description"
+                placeholder="Enter a description for this leave type">
+              </textarea>
+            </div>
+
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              [disabled]="saving"
+              (click)="cancelForm()">
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="saving">
+
+              <span
+                *ngIf="saving"
+                class="spinner">
+              </span>
+
+              <i
+                *ngIf="!saving"
+                class="bi"
+                [ngClass]="editingId !== null
+                  ? 'bi-check-lg'
+                  : 'bi-plus-lg'">
+              </i>
+
+              {{
+                saving
+                  ? 'Saving...'
+                  : (editingId !== null
+                      ? 'Update Leave Type'
+                      : 'Save Leave Type')
+              }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================
+       LEAVE TYPES TABLE
+  =================================== -->
+  <section class="table-card">
+
+    <div class="table-header">
+      <div>
+        <h3>Leave Types</h3>
+        <p>View and manage available leave categories.</p>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="loadLeaveTypes()"
+        [disabled]="loading">
+
+        <i
+          class="bi"
+          [ngClass]="loading ? 'bi-arrow-repeat spin' : 'bi-arrow-clockwise'">
+        </i>
+
+        {{ loading ? 'Loading...' : 'Refresh' }}
+      </button>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-message">
+      <span class="spinner loading-spinner"></span>
+      <p>Loading leave types...</p>
+    </div>
+
+    <!-- Table -->
+    <div class="table-responsive" *ngIf="!loading">
+
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Code</th>
+            <th>Leave Name</th>
+            <th>Default Days</th>
+            <th>Document</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of leaveTypes; let i = index">
+
+            <td>{{ i + 1 }}</td>
+
+            <td>
+              <span class="code-badge">
+                {{ item.code }}
+              </span>
+            </td>
+
+            <td>
+              <div class="leave-name">
+                {{ item.name }}
+              </div>
+
+              <small class="description">
+                {{ item.description || 'No description' }}
+              </small>
+            </td>
+
+            <td>
+              <span class="days-value">
+                {{ item.defaultDays }}
+                <small>days</small>
+              </span>
+            </td>
+
+            <td>
+              <span
+                class="document-status"
+                [class.document-required]="item.requiresDocument"
+                [class.document-optional]="!item.requiresDocument">
+
+                <i
+                  class="bi"
+                  [ngClass]="item.requiresDocument
+                    ? 'bi-file-earmark-check'
+                    : 'bi-file-earmark'">
+                </i>
+
+                {{ item.requiresDocument
+                  ? 'Required'
+                  : 'Not required' }}
+              </span>
+            </td>
+
+            <td>
+              <span
+                class="status"
+                [class.active]="item.active"
+                [class.inactive]="!item.active">
+
+                <span class="status-dot"></span>
+
+                {{ item.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+
+            <td>
+              <div class="action-buttons">
+
+                <button
+                  type="button"
+                  class="btn btn-edit"
+                  title="Edit leave type"
+                  (click)="editLeaveType(item)">
+
+                  <i class="bi bi-pencil-square"></i>
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="btn"
+                  [class.btn-danger]="item.active"
+                  [class.btn-activate]="!item.active"
+                  [disabled]="changingStatusId === item.id"
+                  (click)="toggleActive(item)">
+
+                  <i
+                    class="bi"
+                    [ngClass]="item.active
+                      ? 'bi-toggle-on'
+                      : 'bi-toggle-off'">
+                  </i>
+
+                  {{
+                    changingStatusId === item.id
+                      ? 'Please wait...'
+                      : (item.active ? 'Deactivate' : 'Activate')
+                  }}
+                </button>
+
+              </div>
+            </td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="leaveTypes.length === 0">
+            <td colspan="7" class="empty-state">
+              <i class="bi bi-inbox empty-icon"></i>
+              <h4>No Leave Types Found</h4>
+              <p>Click "Add Leave Type" to create your first leave type.</p>
+
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="openAddForm()">
+                <i class="bi bi-plus-lg"></i>
+                Add Leave Type
+              </button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>

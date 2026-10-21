@@ -1,0 +1,181 @@
+
+<div class="leave-management">
+
+  <div class="page-header">
+    <div>
+      <h2>Leave Applications</h2>
+      <p>Manage, review and process employee leave requests.</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn-refresh"
+      (click)="loadApplications()"
+      [disabled]="loading">
+      <i class="bi bi-arrow-clockwise"></i>
+      Refresh
+    </button>
+  </div>
+
+  <!-- Messages -->
+  <div class="alert alert-success" *ngIf="successMessage">
+    {{ successMessage }}
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Summary cards -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span>Total Applications</span>
+      <strong>{{ applications.length }}</strong>
+    </div>
+
+    <div class="summary-card pending">
+      <span>Pending</span>
+      <strong>{{ pendingCount }}</strong>
+    </div>
+
+    <div class="summary-card reviewing">
+      <span>Under Review</span>
+      <strong>{{ underReviewCount }}</strong>
+    </div>
+
+    <div class="summary-card approved">
+      <span>Approved</span>
+      <strong>{{ approvedCount }}</strong>
+    </div>
+
+    <div class="summary-card rejected">
+      <span>Rejected</span>
+      <strong>{{ rejectedCount }}</strong>
+    </div>
+  </div>
+
+  <!-- Filter -->
+  <div class="table-toolbar">
+    <h3>Employee Requests</h3>
+
+    <select
+      class="status-filter"
+      [(ngModel)]="selectedStatus"
+      aria-label="Filter applications by status">
+
+      <option value="ALL">All Applications</option>
+      <option value="PENDING">Pending</option>
+      <option value="UNDER_REVIEW">Under Review</option>
+      <option value="APPROVED">Approved</option>
+      <option value="REJECTED">Rejected</option>
+      <option value="CANCELLED">Cancelled</option>
+    </select>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" *ngIf="loading">
+    <span class="spinner-border spinner-border-sm"></span>
+    Loading applications...
+  </div>
+
+  <!-- Applications table -->
+  <div class="table-responsive" *ngIf="!loading">
+    <table class="table applications-table">
+      <thead>
+        <tr>
+          <!-- <th>Application ID</th> -->
+          <th>Employee ID</th>
+          <th>Leave Type ID</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Days</th>
+          <th>Reason</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="let application of filteredApplications;
+                  trackBy: trackByApplicationId">
+
+          <!-- <td>#{{ application.id }}</td> -->
+          <td>{{ application.employeeId }}</td>
+          <td>{{ application.leaveTypeId }}</td>
+          <td>{{ application.startDate }}</td>
+          <td>{{ application.endDate }}</td>
+          <td>{{ application.requestedDays }}</td>
+
+          <td class="reason-cell">
+            {{ application.reason || 'No reason provided' }}
+          </td>
+
+          <td>
+            <span
+              class="status-badge"
+              [ngClass]="'status-' + application.status.toLowerCase()">
+{{ sstatusLabel(application.status) }}
+            </span>
+          </td>
+
+          <td>
+            <div class="action-buttons">
+
+              <button
+                *ngIf="application.status === 'PENDING'"
+                type="button"
+                class="btn-action btn-review"
+                (click)="markUnderReview(application)"
+                [disabled]="processingId === application.id">
+                Review
+              </button>
+
+              <button
+                *ngIf="application.status === 'PENDING' ||
+                       application.status === 'UNDER_REVIEW'"
+                type="button"
+                class="btn-action btn-approve"
+                (click)="approveApplication(application)"
+                [disabled]="processingId === application.id">
+                Approve
+              </button>
+
+              <button
+                *ngIf="application.status === 'PENDING' ||
+                       application.status === 'UNDER_REVIEW'"
+                type="button"
+                class="btn-action btn-reject"
+                (click)="rejectApplication(application)"
+                [disabled]="processingId === application.id">
+                Reject
+              </button>
+
+              <span
+                *ngIf="processingId === application.id"
+                class="processing-text">
+                Processing...
+              </span>
+
+              <span
+                *ngIf="application.status === 'APPROVED' ||
+                       application.status === 'REJECTED' ||
+                       application.status === 'CANCELLED'"
+                class="completed-text">
+                Processed
+              </span>
+
+            </div>
+          </td>
+        </tr>
+
+        <tr *ngIf="filteredApplications.length === 0">
+          <td colspan="9" class="empty-state">
+            No leave applications found.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

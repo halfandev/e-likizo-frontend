@@ -29,6 +29,9 @@ import { EmployeesComponent } from './component/employees/employees.component';
 import { AddEmployeeComponent } from './component/add-employee/add-employee.component';
 import { EmployeeDetailsComponent } from './component/employee-details/employee-details.component';
 import { EditEmployeeComponent } from './component/edit-employee/edit-employee.component';
+import { ManageLeaveTypesComponent } from './pages/admin/manage-leave-types/manage-leave-types.component';
+import { ManageLeaveApplicationsComponent } from './pages/admin/manage-leave-applications/manage-leave-applications.component';
+import { ApplyLeaveComponent } from './pages/leave/apply-leave/apply-leave.component';
 
 
 @NgModule({
@@ -57,6 +60,9 @@ import { EditEmployeeComponent } from './component/edit-employee/edit-employee.c
     AddEmployeeComponent,
     EmployeeDetailsComponent,
     EditEmployeeComponent,
+    ManageLeaveTypesComponent,
+    ManageLeaveApplicationsComponent,
+    ApplyLeaveComponent,
   ],
   imports: [
     BrowserModule,

@@ -45,4 +45,11 @@ export class AdminSidebarComponent {
   toggleAdministrativeMenu(): void {
     this.isAdministrativeMenuOpen = !this.isAdministrativeMenuOpen;
   }
+
+  // Leave Management Dropdown
+isLeaveMenuOpen = false;
+
+toggleLeaveMenu(): void {
+  this.isLeaveMenuOpen = !this.isLeaveMenuOpen;
+}
 }

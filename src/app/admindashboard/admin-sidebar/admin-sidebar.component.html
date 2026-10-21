@@ -43,98 +43,107 @@
       <span class="nav-text">Employee Dashboard</span>
     </a>
 
-   
+    <a
+      class="nav-link"
+      routerLink="/employee/apply-leave"
+      *ngIf="isEmployee">
+      <span class="nav-icon">
+<i class="fa fa-calendar"></i>      </span>
+      <span class="nav-text">Apply for leave</span>
+    </a>
+    
 
-<!-- User Management Dropdown: Admin Only -->
-<div class="nav-dropdown" *ngIf="isAdmin">
 
-  <button
-    type="button"
-    class="nav-link nav-dropdown-toggle"
-    (click)="toggleUserMenu()"
-    [attr.aria-expanded]="isUserMenuOpen"
-    aria-controls="userManagementSubmenu">
+    <!-- User Management Dropdown: Admin Only -->
+    <div class="nav-dropdown" *ngIf="isAdmin">
 
-    <span class="nav-icon">
-      <i class="bi bi-people"></i>
-    </span>
+      <button
+        type="button"
+        class="nav-link nav-dropdown-toggle"
+        (click)="toggleUserMenu()"
+        [attr.aria-expanded]="isUserMenuOpen"
+        aria-controls="userManagementSubmenu">
 
-    <span class="nav-text">User Management</span>
+        <span class="nav-icon">
+          <i class="bi bi-people"></i>
+        </span>
 
-    <span class="dropdown-arrow">
-      <i
-        class="bi"
-        [ngClass]="isUserMenuOpen
+        <span class="nav-text">User Management</span>
+
+        <span class="dropdown-arrow">
+          <i
+            class="bi"
+            [ngClass]="isUserMenuOpen
           ? 'bi-chevron-up'
           : 'bi-chevron-down'">
-      </i>
-    </span>
-  </button>
+          </i>
+        </span>
+      </button>
 
-  <div
-    class="nav-submenu"
-    id="userManagementSubmenu"
-    *ngIf="isUserMenuOpen">
+      <div
+        class="nav-submenu"
+        id="userManagementSubmenu"
+        *ngIf="isUserMenuOpen">
 
-    <a
-      class="nav-link submenu-link"
-      routerLink="/users"
-      routerLinkActive="active">
-      <i class="bi bi-people"></i>
-      <span>Users</span>
-    </a>
+        <a
+          class="nav-link submenu-link"
+          routerLink="/users"
+          routerLinkActive="active">
+          <i class="bi bi-people"></i>
+          <span>Users</span>
+        </a>
 
-    <a
-      class="nav-link submenu-link"
-      routerLink="/add-user"
-      routerLinkActive="active">
-      <i class="bi bi-person-plus"></i>
-      <span>Add User</span>
-    </a>
+        <a
+          class="nav-link submenu-link"
+          routerLink="/add-user"
+          routerLinkActive="active">
+          <i class="bi bi-person-plus"></i>
+          <span>Add User</span>
+        </a>
 
-  </div>
-</div>
+      </div>
+    </div>
 
-<!-- Employee Management Dropdown: Admin Only -->
-<div class="nav-dropdown" *ngIf="isAdmin">
+    <!-- Employee Management Dropdown: Admin Only -->
+    <div class="nav-dropdown" *ngIf="isAdmin">
 
-  <button
-    type="button"
-    class="nav-link nav-dropdown-toggle"
-    (click)="toggleEmployeeMenu()"
-    [attr.aria-expanded]="isEmployeeMenuOpen"
-    aria-controls="employeeManagementSubmenu">
+      <button
+        type="button"
+        class="nav-link nav-dropdown-toggle"
+        (click)="toggleEmployeeMenu()"
+        [attr.aria-expanded]="isEmployeeMenuOpen"
+        aria-controls="employeeManagementSubmenu">
 
-    <span class="nav-icon">
-      <i class="bi bi-person-vcard"></i>
-    </span>
+        <span class="nav-icon">
+          <i class="bi bi-person-vcard"></i>
+        </span>
 
-    <span class="nav-text">Employee Management</span>
+        <span class="nav-text">Employee Management</span>
 
-    <span class="dropdown-arrow">
-      <i
-        class="bi"
-        [ngClass]="isEmployeeMenuOpen
+        <span class="dropdown-arrow">
+          <i
+            class="bi"
+            [ngClass]="isEmployeeMenuOpen
           ? 'bi-chevron-up'
           : 'bi-chevron-down'">
-      </i>
-    </span>
-  </button>
+          </i>
+        </span>
+      </button>
 
-  <div
-    class="nav-submenu"
-    id="employeeManagementSubmenu"
-    *ngIf="isEmployeeMenuOpen">
+      <div
+        class="nav-submenu"
+        id="employeeManagementSubmenu"
+        *ngIf="isEmployeeMenuOpen">
 
-    <a
-      class="nav-link submenu-link"
-      routerLink="/employees"
-      routerLinkActive="active">
-      <i class="bi bi-people"></i>
-      <span>Employees</span>
-    </a>
+        <a
+          class="nav-link submenu-link"
+          routerLink="/employees"
+          routerLinkActive="active">
+          <i class="bi bi-people"></i>
+          <span>Employees</span>
+        </a>
 
-    <!-- <a
+        <!-- <a
       class="nav-link submenu-link"
       routerLink="/add-employee"
       routerLinkActive="active">
@@ -142,10 +151,72 @@
       <span>Add Employee</span>
     </a> -->
 
-  </div>
-</div>
+      </div>
+    </div>
 
+    <!-- Leave Management Dropdown: Admin Only -->
+    <div class="nav-dropdown" *ngIf="isAdmin">
 
+      <button
+        type="button"
+        class="nav-link nav-dropdown-toggle"
+        (click)="toggleLeaveMenu()"
+        [attr.aria-expanded]="isLeaveMenuOpen"
+        aria-controls="leaveManagementSubmenu">
+
+        <span class="nav-icon">
+          <i class="bi bi-calendar2-check"></i>
+        </span>
+
+        <span class="nav-text">Leave Management</span>
+
+        <span class="dropdown-arrow">
+          <i
+            class="bi"
+            [ngClass]="isLeaveMenuOpen
+          ? 'bi-chevron-up'
+          : 'bi-chevron-down'">
+          </i>
+        </span>
+      </button>
+
+      <div
+        class="nav-submenu"
+        id="leaveManagementSubmenu"
+        *ngIf="isLeaveMenuOpen">
+
+        <!-- Manage Leave Types -->
+        <a
+          class="nav-link submenu-link"
+          routerLink="/admin/leave-types"
+          routerLinkActive="active">
+
+          <i class="bi bi-list-check"></i>
+          <span>Leave Types</span>
+        </a>
+
+        <!-- Leave Applications -->
+        <a
+          class="nav-link submenu-link"
+          routerLink="/admin/leave-applications"
+          routerLinkActive="active">
+
+          <i class="bi bi-calendar2-week"></i>
+          <span>Leave Applications</span>
+        </a>
+
+        <!-- Pending Leave Applications -->
+        <a
+          class="nav-link submenu-link"
+          routerLink="/admin/pending-leaves"
+          routerLinkActive="active">
+
+          <i class="bi bi-hourglass-split"></i>
+          <span>Pending Applications</span>
+        </a>
+
+      </div>
+    </div>
 
     <!-- Shared Profile -->
     <!-- <a class="nav-link" routerLink="/profile">

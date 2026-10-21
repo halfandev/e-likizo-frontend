@@ -20,6 +20,10 @@ import { EmployeesComponent } from './component/employees/employees.component';
 import { AddEmployeeComponent } from './component/add-employee/add-employee.component';
 import { EmployeeDetailsComponent } from './component/employee-details/employee-details.component';
 import { EditEmployeeComponent } from './component/edit-employee/edit-employee.component';
+import { roleGuard } from './guards/role.guard';
+import { ManageLeaveTypesComponent } from './pages/admin/manage-leave-types/manage-leave-types.component';
+import { ManageLeaveApplicationsComponent } from './pages/admin/manage-leave-applications/manage-leave-applications.component';
+import { ApplyLeaveComponent } from './pages/leave/apply-leave/apply-leave.component';
 
 
 const routes: Routes = [
@@ -136,6 +140,28 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['ADMIN', 'HR'] }
       },
+
+      {
+        path: 'admin/leave-types',
+        component: ManageLeaveTypesComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN'] }
+
+      },
+
+      {
+        path: 'admin/leave-applications',
+        component: ManageLeaveApplicationsComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['ADMIN'] }
+      },
+
+      {
+  path: 'employee/apply-leave',
+  component: ApplyLeaveComponent,
+  canActivate: [AuthGuard],
+  data: { roles: ['EMPLOYEE'] }
+},
     ]
   },
 
