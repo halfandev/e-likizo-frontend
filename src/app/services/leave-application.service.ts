@@ -21,29 +21,27 @@ export class LeaveApplicationService {
 
   constructor(private http: HttpClient) {}
 
-  // Mfanyakazi kuomba likizo
+  // Mfanyakazi kuomba likizo.
+  // Backend itamtambua mfanyakazi kupitia JWT token.
   applyForLeave(
-    employeeId: number,
     request: LeaveApplicationRequest
   ): Observable<LeaveApplication> {
 
     return this.http.post<LeaveApplication>(
-      `${this.employeeUrl}/apply/${employeeId}`,
+      `${this.employeeUrl}/apply`,
       request
     );
   }
 
-  // Kuona maombi ya mfanyakazi
-  getEmployeeApplications(
-    employeeId: number
-  ): Observable<LeaveApplication[]> {
+  // Mfanyakazi kuona maombi yake mwenyewe.
+  getEmployeeApplications(): Observable<LeaveApplication[]> {
 
     return this.http.get<LeaveApplication[]>(
-      `${this.employeeUrl}/employee/${employeeId}`
+      `${this.employeeUrl}/my-applications`
     );
   }
 
-  // Admin kuona maombi yote
+  // Admin kuona maombi yote.
   getAllApplications(): Observable<LeaveApplication[]> {
 
     return this.http.get<LeaveApplication[]>(
@@ -51,7 +49,7 @@ export class LeaveApplicationService {
     );
   }
 
-  // Admin kuanza kupitia ombi
+  // Admin kuanza kupitia ombi.
   markUnderReview(
     applicationId: number
   ): Observable<LeaveApplication> {
@@ -62,7 +60,7 @@ export class LeaveApplicationService {
     );
   }
 
-  // Admin kuidhinisha ombi
+  // Admin kuidhinisha ombi.
   approveApplication(
     applicationId: number
   ): Observable<LeaveApplication> {
@@ -73,7 +71,7 @@ export class LeaveApplicationService {
     );
   }
 
-  // Admin kukataa ombi
+  // Admin kukataa ombi.
   rejectApplication(
     applicationId: number
   ): Observable<LeaveApplication> {

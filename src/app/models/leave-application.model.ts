@@ -15,7 +15,8 @@ export interface LeaveApplication {
   endDate: string;
   requestedDays: number;
   reason: string;
-  status: string;
+  status: LeaveStatus;
+  familyMemberId: number | null;
 }
 
 export interface LeaveApplicationRequest {
@@ -23,4 +24,5 @@ export interface LeaveApplicationRequest {
   startDate: string;
   endDate: string;
   reason: string;
+  familyMemberId?: number | null;
 }

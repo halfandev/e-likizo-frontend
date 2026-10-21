@@ -24,6 +24,7 @@ import { roleGuard } from './guards/role.guard';
 import { ManageLeaveTypesComponent } from './pages/admin/manage-leave-types/manage-leave-types.component';
 import { ManageLeaveApplicationsComponent } from './pages/admin/manage-leave-applications/manage-leave-applications.component';
 import { ApplyLeaveComponent } from './pages/leave/apply-leave/apply-leave.component';
+import { FamilyMembersComponent } from './pages/family-members/family-members.component';
 
 
 const routes: Routes = [
@@ -162,6 +163,13 @@ const routes: Routes = [
   canActivate: [AuthGuard],
   data: { roles: ['EMPLOYEE'] }
 },
+
+{
+  path: 'my-dependents',
+  component: FamilyMembersComponent,
+  canActivate: [AuthGuard],
+  data: { roles: ['EMPLOYEE'] }
+}
     ]
   },
 

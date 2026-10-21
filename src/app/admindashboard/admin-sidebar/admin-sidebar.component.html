@@ -4,8 +4,8 @@
       <span class="brand-icon"><i class="bi bi-grid-1x2-fill"
           aria-hidden="true"></i></span>
       <span class="brand-copy">
-        <span class="brand-title">adminHMD</span>
-        <span class="brand-subtitle">Admin Template</span>
+        <span class="brand-title">e-likizo</span>
+        <span class="brand-subtitle">Police Management</span>
       </span>
     </a>
   </div>
@@ -48,11 +48,26 @@
       routerLink="/employee/apply-leave"
       *ngIf="isEmployee">
       <span class="nav-icon">
-<i class="fa fa-calendar"></i>      </span>
+        <i class="fa fa-calendar"></i> </span>
       <span class="nav-text">Apply for leave</span>
     </a>
-    
 
+
+    <a
+      class="nav-link"
+      routerLink="/my-dependents"
+      *ngIf="isEmployee">
+      <span class="nav-icon">
+      <i class="fa fa-users"></i>
+       </span>
+      <span class="nav-text">my dependant</span>
+    </a>
+
+
+    <!-- <a routerLink="/my-dependents" routerLinkActive="active">
+      <i class="fa fa-users"></i>
+      <span>My Dependents</span>
+    </a> -->
 
     <!-- User Management Dropdown: Admin Only -->
     <div class="nav-dropdown" *ngIf="isAdmin">

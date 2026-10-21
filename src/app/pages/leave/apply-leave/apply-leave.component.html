@@ -86,7 +86,8 @@
               </option>
             </select>
 
-            <small class="field-error"
+            <small
+              class="field-error"
               *ngIf="leaveForm.get('leaveTypeId')?.touched &&
                      leaveForm.get('leaveTypeId')?.invalid">
               Please select a leave type.
@@ -96,7 +97,8 @@
               Loading leave types...
             </small>
 
-            <small class="field-error"
+            <small
+              class="field-error"
               *ngIf="!loadingTypes && leaveTypes.length === 0">
               No active leave types are available.
             </small>
@@ -104,6 +106,7 @@
 
           <!-- DATES -->
           <div class="form-row">
+
             <div class="form-group">
               <label for="startDate">Start Date</label>
 
@@ -114,7 +117,8 @@
                 formControlName="startDate"
                 [min]="today" />
 
-              <small class="field-error"
+              <small
+                class="field-error"
                 *ngIf="leaveForm.get('startDate')?.touched &&
                        leaveForm.get('startDate')?.invalid">
                 Please select the start date.
@@ -131,12 +135,75 @@
                 formControlName="endDate"
                 [min]="leaveForm.get('startDate')?.value || today" />
 
-              <small class="field-error"
+              <small
+                class="field-error"
                 *ngIf="leaveForm.get('endDate')?.touched &&
                        leaveForm.get('endDate')?.invalid">
                 Please select the end date.
               </small>
             </div>
+
+          </div>
+
+          <!-- REQUESTED DAYS -->
+          <div
+            class="field-info days-info"
+            *ngIf="leaveForm.get('startDate')?.value &&
+                   leaveForm.get('endDate')?.value">
+
+            Requested days:
+            <strong>{{ getRequestedDays() }}</strong>
+          </div>
+
+          <!-- DEPENDENT DROPDOWN -->
+          <div class="form-group" *ngIf="requiresFamilyMember">
+
+            <label for="familyMemberId">
+              Select Dependent
+              <span class="text-danger">*</span>
+            </label>
+
+            <select
+              id="familyMemberId"
+              class="form-control"
+              formControlName="familyMemberId">
+
+              <option [ngValue]="null">
+                -- Select Dependent --
+              </option>
+
+              <option
+                *ngFor="let member of familyMembers"
+                [ngValue]="member.id">
+                {{ member.fullName }} ({{ member.relationship }})
+              </option>
+
+            </select>
+
+            <small class="field-info" *ngIf="loadingFamilyMembers">
+              Loading registered dependents...
+            </small>
+
+            <small
+              class="field-error"
+              *ngIf="!loadingFamilyMembers &&
+                     familyMembers.length === 0">
+              No dependents found. Please register a dependent
+              first on the My Dependents page.
+            </small>
+
+            <small
+              class="field-error"
+              *ngIf="leaveForm.get('familyMemberId')?.touched &&
+                     !leaveForm.get('familyMemberId')?.value">
+              Please select a dependent for Annual Leave of 28 days.
+            </small>
+
+            <small class="field-info">
+              Dependent selection is required when applying for
+              Annual Leave for 28 days.
+            </small>
+
           </div>
 
           <!-- REASON -->
@@ -149,10 +216,10 @@
               rows="4"
               maxlength="1000"
               formControlName="reason"
-              placeholder="Explain why you are requesting leave...">
-            </textarea>
+              placeholder="Explain why you are requesting leave..."></textarea>
 
-            <small class="field-error"
+            <small
+              class="field-error"
               *ngIf="leaveForm.get('reason')?.touched &&
                      leaveForm.get('reason')?.invalid">
               Please provide a reason of up to 1000 characters.
@@ -161,6 +228,7 @@
 
           <!-- MODAL FOOTER -->
           <div class="modal-footer-custom">
+
             <button
               type="button"
               class="btn-cancel"
@@ -172,10 +240,13 @@
             <button
               type="submit"
               class="btn-submit"
-              [disabled]="submitting || loadingTypes || leaveTypes.length === 0">
+              [disabled]="submitting ||
+                          loadingTypes ||
+                          leaveTypes.length === 0">
 
               {{ submitting ? 'Submitting...' : 'Submit Application' }}
             </button>
+
           </div>
 
         </form>
@@ -206,11 +277,13 @@
     </div>
 
     <div class="table-responsive" *ngIf="!loadingApplications">
+
       <table class="table">
+
         <thead>
           <tr>
             <th>Application</th>
-            <th>Leave Type ID</th>
+            <th>Leave Type</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Days</th>
@@ -219,12 +292,14 @@
         </thead>
 
         <tbody>
+
           <tr *ngFor="let application of myApplications">
             <td>#{{ application.id }}</td>
-<td>{{ application.leaveTypeName }}</td>
+            <td>{{ application.leaveTypeName }}</td>
             <td>{{ application.startDate }}</td>
             <td>{{ application.endDate }}</td>
             <td>{{ application.requestedDays }}</td>
+
             <td>
               <span
                 class="status-badge"
@@ -238,12 +313,16 @@
             <td colspan="6" class="empty-state">
               <div class="empty-icon">📋</div>
               <strong>No leave applications yet</strong>
-              <p>Click "Apply for Leave" above to submit your first request.</p>
+              <p>
+                Click "Apply for Leave" above to submit your first request.
+              </p>
             </td>
           </tr>
+
         </tbody>
       </table>
     </div>
 
   </div>
+
 </div>

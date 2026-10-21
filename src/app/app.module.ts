@@ -32,6 +32,7 @@ import { EditEmployeeComponent } from './component/edit-employee/edit-employee.c
 import { ManageLeaveTypesComponent } from './pages/admin/manage-leave-types/manage-leave-types.component';
 import { ManageLeaveApplicationsComponent } from './pages/admin/manage-leave-applications/manage-leave-applications.component';
 import { ApplyLeaveComponent } from './pages/leave/apply-leave/apply-leave.component';
+import { FamilyMembersComponent } from './pages/family-members/family-members.component';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { ApplyLeaveComponent } from './pages/leave/apply-leave/apply-leave.compo
     ManageLeaveTypesComponent,
     ManageLeaveApplicationsComponent,
     ApplyLeaveComponent,
+    FamilyMembersComponent,
   ],
   imports: [
     BrowserModule,
