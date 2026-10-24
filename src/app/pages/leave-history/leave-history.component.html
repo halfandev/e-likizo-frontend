@@ -1,0 +1,313 @@
+
+<div class="leave-page">
+
+  <!-- LEAVE APPLICATION SECTION -->
+  <div class="leave-section">
+
+    <!-- SUCCESS MESSAGE -->
+    <div class="alert alert-success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <!-- ERROR MESSAGE -->
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <!-- LEAVE APPLICATION MODAL -->
+    <div
+      class="modal-backdrop-custom"
+      *ngIf="modalOpen"
+      (click)="closeModal()">
+
+      <div
+        class="leave-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="leaveModalTitle"
+        (click)="$event.stopPropagation()">
+
+        <div class="modal-header-custom">
+          <div>
+            <h3 id="leaveModalTitle">Apply for Leave</h3>
+            <p>Fill in the details below to submit your request.</p>
+          </div>
+
+          <button
+            type="button"
+            class="btn-close-modal"
+            aria-label="Close"
+            [disabled]="submitting"
+            (click)="closeModal()">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-body-custom">
+
+          <div class="alert alert-danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </div>
+
+          <form
+            [formGroup]="leaveForm"
+            (ngSubmit)="submitApplication()">
+
+            <!-- LEAVE TYPE -->
+            <div class="form-group">
+              <label for="leaveTypeId">Leave Type</label>
+
+              <select
+                id="leaveTypeId"
+                class="form-control"
+                formControlName="leaveTypeId">
+
+                <option value="">-- Select Leave Type --</option>
+
+                <option
+                  *ngFor="let type of leaveTypes"
+                  [value]="type.id">
+                  {{ type.name }} ({{ type.defaultDays }} days)
+                </option>
+              </select>
+
+              <small
+                class="field-error"
+                *ngIf="leaveForm.get('leaveTypeId')?.touched &&
+                       leaveForm.get('leaveTypeId')?.invalid">
+                Please select a leave type.
+              </small>
+
+              <small class="field-info" *ngIf="loadingTypes">
+                Loading leave types...
+              </small>
+
+              <small
+                class="field-error"
+                *ngIf="!loadingTypes && leaveTypes.length === 0">
+                No active leave types are available.
+              </small>
+            </div>
+
+            <!-- DATES -->
+            <div class="form-row">
+
+              <div class="form-group">
+                <label for="startDate">Start Date</label>
+
+                <input
+                  id="startDate"
+                  type="date"
+                  class="form-control"
+                  formControlName="startDate"
+                  [min]="today" />
+
+                <small
+                  class="field-error"
+                  *ngIf="leaveForm.get('startDate')?.touched &&
+                         leaveForm.get('startDate')?.invalid">
+                  Please select the start date.
+                </small>
+              </div>
+
+              <div class="form-group">
+                <label for="endDate">End Date</label>
+
+                <input
+                  id="endDate"
+                  type="date"
+                  class="form-control"
+                  formControlName="endDate"
+                  [min]="leaveForm.get('startDate')?.value || today" />
+
+                <small
+                  class="field-error"
+                  *ngIf="leaveForm.get('endDate')?.touched &&
+                         leaveForm.get('endDate')?.invalid">
+                  Please select the end date.
+                </small>
+              </div>
+
+            </div>
+
+            <!-- REQUESTED DAYS -->
+            <div
+              class="field-info days-info"
+              *ngIf="leaveForm.get('startDate')?.value &&
+                     leaveForm.get('endDate')?.value">
+
+              Requested days:
+              <strong>{{ getRequestedDays() }}</strong>
+            </div>
+
+            <!-- DEPENDENT -->
+            <div class="form-group" *ngIf="requiresFamilyMember">
+
+              <label for="familyMemberId">
+                Select Dependent
+                <span class="text-danger">*</span>
+              </label>
+
+              <select
+                id="familyMemberId"
+                class="form-control"
+                formControlName="familyMemberId">
+
+                <option [ngValue]="null">
+                  -- Select Dependent --
+                </option>
+
+                <option
+                  *ngFor="let member of familyMembers"
+                  [ngValue]="member.id">
+                  {{ member.fullName }} ({{ member.relationship }})
+                </option>
+              </select>
+
+              <small class="field-info" *ngIf="loadingFamilyMembers">
+                Loading registered dependents...
+              </small>
+
+              <small
+                class="field-error"
+                *ngIf="!loadingFamilyMembers &&
+                       familyMembers.length === 0">
+                No dependents found. Please register a dependent
+                first on the My Dependents page.
+              </small>
+
+              <small
+                class="field-error"
+                *ngIf="leaveForm.get('familyMemberId')?.touched &&
+                       requiresDependentForSubmission &&
+                       !leaveForm.get('familyMemberId')?.value">
+                Please select a dependent for Annual Leave of 28 days.
+              </small>
+
+              <small class="field-info">
+                Dependent selection is required for Annual Leave
+                of 28 days.
+              </small>
+
+            </div>
+
+            <!-- REASON -->
+            <div class="form-group">
+              <label for="reason">Reason for Leave</label>
+
+              <textarea
+                id="reason"
+                class="form-control"
+                rows="4"
+                maxlength="1000"
+                formControlName="reason"
+                placeholder="Explain why you are requesting leave...">
+              </textarea>
+
+              <small
+                class="field-error"
+                *ngIf="leaveForm.get('reason')?.touched &&
+                       leaveForm.get('reason')?.invalid">
+                Please provide a reason of up to 1000 characters.
+              </small>
+            </div>
+
+            <!-- MODAL FOOTER -->
+            <div class="modal-footer-custom">
+
+              <button
+                type="button"
+                class="btn-cancel"
+                [disabled]="submitting"
+                (click)="closeModal()">
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="btn-submit"
+                [disabled]="submitting ||
+                            loadingTypes ||
+                            leaveTypes.length === 0">
+
+                {{ submitting ? 'Submitting...' : 'Submit Application' }}
+              </button>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEAVE HISTORY -->
+    <div class="leave-card history-card">
+
+      <div class="applications-header">
+        <div>
+          <h3>My Leave Applications</h3>
+          <p>View and track all your leave requests.</p>
+        </div>
+
+        <button
+          type="button"
+          class="btn-refresh"
+          (click)="loadMyApplications()"
+          [disabled]="loadingApplications">
+          {{ loadingApplications ? 'Refreshing...' : '↻ Refresh' }}
+        </button>
+      </div>
+
+      <div *ngIf="loadingApplications" class="loading-state">
+        Loading your applications...
+      </div>
+
+      <div class="table-responsive" *ngIf="!loadingApplications">
+        <table class="table">
+
+          <thead>
+            <tr>
+              <th>Application</th>
+              <th>Leave Type</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Days</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let application of myApplications">
+              <td>#{{ application.id }}</td>
+              <td>{{ application.leaveTypeName }}</td>
+              <td>{{ application.startDate }}</td>
+              <td>{{ application.endDate }}</td>
+              <td>{{ application.requestedDays }}</td>
+
+              <td>
+                <span
+                  class="status-badge"
+                  [ngClass]="'status-' + application.status.toLowerCase()">
+                  {{ getStatusLabel(application.status) }}
+                </span>
+              </td>
+            </tr>
+
+            <tr *ngIf="myApplications.length === 0">
+              <td colspan="6" class="empty-state">
+                <div class="empty-icon">📋</div>
+                <strong>No leave applications yet</strong>
+                <p>
+                  Click "Apply for Leave" above to submit your first request.
+                </p>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+</div>

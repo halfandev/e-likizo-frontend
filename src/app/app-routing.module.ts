@@ -25,6 +25,7 @@ import { ManageLeaveTypesComponent } from './pages/admin/manage-leave-types/mana
 import { ManageLeaveApplicationsComponent } from './pages/admin/manage-leave-applications/manage-leave-applications.component';
 import { ApplyLeaveComponent } from './pages/leave/apply-leave/apply-leave.component';
 import { FamilyMembersComponent } from './pages/family-members/family-members.component';
+import { LeaveHistoryComponent } from './pages/leave-history/leave-history.component';
 
 
 const routes: Routes = [
@@ -158,18 +159,24 @@ const routes: Routes = [
       },
 
       {
-  path: 'employee/apply-leave',
-  component: ApplyLeaveComponent,
-  canActivate: [AuthGuard],
-  data: { roles: ['EMPLOYEE'] }
-},
+        path: 'employee/apply-leave',
+        component: ApplyLeaveComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['EMPLOYEE'] }
+      },
 
-{
-  path: 'my-dependents',
-  component: FamilyMembersComponent,
-  canActivate: [AuthGuard],
-  data: { roles: ['EMPLOYEE'] }
-}
+      {
+        path: 'my-dependents',
+        component: FamilyMembersComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['EMPLOYEE'] }
+      },
+      {
+        path: 'leave-history',
+        component: LeaveHistoryComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['EMPLOYEE'] }
+      }
     ]
   },
 

@@ -1,1 +1,83 @@
-<p>employee-dashboard works!</p>
+
+<div class="employee-dashboard">
+
+  <div class="dashboard-heading">
+    <div>
+      <h2>Employee Dashboard</h2>
+      <p>Karibu kwenye mfumo wa e-Likizo. Hapa unaweza kuona muhtasari wa maombi yako ya likizo.</p>
+    </div>
+
+    <button
+      class="refresh-btn"
+      type="button"
+      (click)="loadLeaveSummary()"
+      [disabled]="loading">
+      <i class="fa fa-refresh"></i>
+      Refresh
+    </button>
+  </div>
+
+  <div class="loading-message" *ngIf="loading">
+    Inapakia takwimu za likizo...
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    <i class="fa fa-exclamation-circle"></i>
+    {{ errorMessage }}
+    <button type="button" (click)="loadLeaveSummary()">
+      Jaribu tena
+    </button>
+  </div>
+
+  <div class="leave-summary-grid" *ngIf="!loading && !errorMessage">
+
+    <!-- Approved -->
+    <div class="summary-card approved-card">
+      <div class="card-content">
+        <div class="card-label">Approved Leaves</div>
+        <div class="card-number">{{ summary.approved }}</div>
+        <div class="card-description">
+          Maombi yaliyoidhinishwa
+        </div>
+      </div>
+
+      <div class="card-icon">
+        <i class="fa fa-check-circle"></i>
+      </div>
+    </div>
+
+    <!-- Rejected -->
+    <div class="summary-card rejected-card">
+      <div class="card-content">
+        <div class="card-label">Rejected Leaves</div>
+        <div class="card-number">{{ summary.rejected }}</div>
+        <div class="card-description">
+          Maombi yaliyokataliwa
+        </div>
+      </div>
+
+      <div class="card-icon">
+        <i class="fa fa-times-circle"></i>
+      </div>
+    </div>
+
+    <!-- Pending -->
+    <div class="summary-card pending-card">
+      <div class="card-content">
+        <div class="card-label">Pending Leaves</div>
+        <div class="card-number">{{ summary.pending }}</div>
+        <div class="card-description">
+          Maombi yanayosubiri uamuzi
+        </div>
+      </div>
+
+      <div class="card-icon">
+        <i class="fa fa-clock-o"></i>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
