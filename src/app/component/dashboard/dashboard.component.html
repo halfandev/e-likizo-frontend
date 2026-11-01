@@ -1,1 +1,75 @@
-<p>dashboard works!</p>
+
+<div class="leave-management">
+
+  <div class="page-header">
+    <div>
+      <h2>Leave Applications</h2>
+      <p>Monitor employee leave applications and approval workflow.</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn-refresh"
+      (click)="loadApplications()"
+      [disabled]="loading">
+      <i class="bi bi-arrow-clockwise"></i>
+      Refresh
+    </button>
+  </div>
+
+  <!-- Messages -->
+  <div class="alert alert-success" *ngIf="successMessage">
+    {{ successMessage }}
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Summary cards -->
+  <div class="summary-grid">
+
+    <div class="summary-card">
+      <span>Total Applications</span>
+      <strong>{{ applications.length }}</strong>
+    </div>
+
+    <div class="summary-card pending">
+      <span>Waiting for OCS</span>
+      <strong>{{ ocsCount }}</strong>
+    </div>
+
+    <div class="summary-card reviewing">
+      <span>Waiting for OCD</span>
+      <strong>{{ ocdCount }}</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Waiting for RPC</span>
+      <strong>{{ rpcCount }}</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Waiting for CP</span>
+      <strong>{{ cpCount }}</strong>
+    </div>
+
+    <div class="summary-card">
+      <span>Waiting for IGP</span>
+      <strong>{{ igpCount }}</strong>
+    </div>
+
+    <div class="summary-card approved">
+      <span>Completed</span>
+      <strong>{{ completedCount }}</strong>
+    </div>
+
+    <div class="summary-card rejected">
+      <span>Rejected</span>
+      <strong>{{ rejectedCount }}</strong>
+    </div>
+
+  </div>
+ 
+
+</div>

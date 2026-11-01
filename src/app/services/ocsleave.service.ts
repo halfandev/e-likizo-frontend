@@ -8,6 +8,13 @@ export interface WorkflowActionRequest {
   comment: string;
 }
 
+export interface OcsDashboardCounts {
+  waitingForOCS: number;
+  waitingForRPC: number;
+  waitingForCP: number;
+  waitingForIGP: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -55,9 +62,9 @@ export class OcsLeaveService {
   );
 }
 
-getHigherLevelApplicationsCount(): Observable<number> {
-  return this.http.get<number>(
-    `${this.apiUrl}/ocs/higher-level/count`
+getOCSDashboardCounts(): Observable<OcsDashboardCounts> {
+  return this.http.get<OcsDashboardCounts>(
+    `${this.apiUrl}/ocs/dashboard-counts`
   );
 }
 }

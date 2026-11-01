@@ -94,4 +94,13 @@ export class LeaveApplicationService {
     `${this.apiUrl}/my-applications/${applicationId}/workflow`
   );
 }
+
+downloadApprovalLetter(applicationId: number) {
+  return this.http.get(
+    `${this.apiUrl}/my-applications/${applicationId}/approval-letter`,
+    {
+      responseType: 'blob'
+    }
+  );
+}
 }

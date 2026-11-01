@@ -103,7 +103,7 @@ export class LeaveWorkflowComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/employee/leave-history']);
+    this.router.navigate(['/leave-history']);
   }
 
 }

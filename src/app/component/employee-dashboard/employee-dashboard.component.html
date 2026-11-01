@@ -1,10 +1,13 @@
-
 <div class="employee-dashboard">
 
+  <!-- Dashboard Heading -->
   <div class="dashboard-heading">
     <div>
       <h2>Employee Dashboard</h2>
-      <p>Karibu kwenye mfumo wa e-Likizo. Hapa unaweza kuona muhtasari wa maombi yako ya likizo.</p>
+      <p>
+        Karibu kwenye mfumo wa e-Likizo.
+        Hapa unaweza kuona muhtasari wa maombi yako ya likizo.
+      </p>
     </div>
 
     <button
@@ -12,24 +15,123 @@
       type="button"
       (click)="loadLeaveSummary()"
       [disabled]="loading">
-      <i class="fa fa-refresh"></i>
+
+      <i class="fa fa-refresh" [class.fa-spin]="loading"></i>
       Refresh
     </button>
   </div>
 
+  <!-- Loading -->
   <div class="loading-message" *ngIf="loading">
+    <i class="fa fa-spinner fa-spin"></i>
     Inapakia takwimu za likizo...
   </div>
 
+  <!-- Error -->
   <div class="error-message" *ngIf="errorMessage">
     <i class="fa fa-exclamation-circle"></i>
+
     {{ errorMessage }}
+
     <button type="button" (click)="loadLeaveSummary()">
       Jaribu tena
     </button>
   </div>
 
-  <div class="leave-summary-grid" *ngIf="!loading && !errorMessage">
+  <!-- Leave Summary -->
+  <div
+    class="leave-summary-grid"
+    *ngIf="!loading && !errorMessage">
+
+    <!-- Total Leaves -->
+    <div class="summary-card total-card">
+      <div class="card-content">
+        <div class="card-label">Total Leaves</div>
+        <div class="card-number">{{ summary.total }}</div>
+        <div class="card-description">
+          Jumla ya maombi yote ya likizo
+        </div>
+      </div>
+
+      <div class="card-icon">
+        <i class="fa fa-calendar"></i>
+      </div>
+    </div>
+
+    <!-- OCS -->
+    <div class="summary-card ocs-card">
+      <div class="card-content">
+        <div class="card-label">At OCS</div>
+        <div class="card-number">{{ summary.ocs }}</div>
+        <div class="card-description">
+          Yanasubiri hatua ya OCS
+        </div>
+      </div>
+
+      <div class="card-icon">
+        <i class="fa fa-user"></i>
+      </div>
+    </div>
+
+    <!-- OCD -->
+    <div class="summary-card ocd-card">
+      <div class="card-content">
+        <div class="card-label">At OCD</div>
+        <div class="card-number">{{ summary.ocd }}</div>
+        <div class="card-description">
+          Yanasubiri hatua ya OCD
+        </div>
+      </div>
+
+      <div class="card-icon">
+        <i class="fa fa-users"></i>
+      </div>
+    </div>
+
+    <!-- RPC -->
+    <div class="summary-card rpc-card">
+      <div class="card-content">
+        <div class="card-label">At RPC</div>
+        <div class="card-number">{{ summary.rpc }}</div>
+        <div class="card-description">
+          Yanasubiri hatua ya RPC
+        </div>
+      </div>
+
+      <div class="card-icon">
+        <i class="fa fa-users"></i>
+      </div>
+    </div>
+
+    <!-- CP -->
+    <div class="summary-card cp-card">
+      <div class="card-content">
+        <div class="card-label">At CP</div>
+        <div class="card-number">{{ summary.cp }}</div>
+        <div class="card-description">
+          Yanasubiri hatua ya CP
+        </div>
+      </div>
+
+      <div class="card-icon">
+        <i class="fa fa-building"></i>
+      </div>
+    </div>
+
+    <!-- IGP -->
+    <div class="summary-card igp-card">
+      <div class="card-content">
+        <div class="card-label">At IGP</div>
+        <div class="card-number">{{ summary.igp }}</div>
+        <div class="card-description">
+          Yanasubiri hatua ya IGP
+        </div>
+      </div>
+
+      <div class="card-icon">
+        <i class="fa fa-university"></i>
+      </div>
+    </div>
 
     <!-- Approved -->
     <div class="summary-card approved-card">
@@ -37,7 +139,7 @@
         <div class="card-label">Approved Leaves</div>
         <div class="card-number">{{ summary.approved }}</div>
         <div class="card-description">
-          Maombi yaliyoidhinishwa
+          Maombi yaliyoidhinishwa kikamilifu
         </div>
       </div>
 
@@ -61,23 +163,6 @@
       </div>
     </div>
 
-    <!-- Pending -->
-    <div class="summary-card pending-card">
-      <div class="card-content">
-        <div class="card-label">Pending Leaves</div>
-        <div class="card-number">{{ summary.pending }}</div>
-        <div class="card-description">
-          Maombi yanayosubiri uamuzi
-        </div>
-      </div>
-
-      <div class="card-icon">
-        <i class="fa fa-clock-o"></i>
-      </div>
-    </div>
-
   </div>
 
 </div>
-
-

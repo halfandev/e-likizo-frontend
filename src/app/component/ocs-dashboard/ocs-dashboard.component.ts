@@ -16,7 +16,11 @@ export class OcsDashboardComponent implements OnInit {
 
   selectedApplication: LeaveApplication | null = null;
 
-  totalHigherLevelApplications = 0;
+  waitingForOCS = 0;
+  waitingForRPC = 0;
+  waitingForCP = 0;
+  waitingForIGP = 0;
+
 
   comment = '';
 
@@ -26,7 +30,7 @@ export class OcsDashboardComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
 
-  constructor(private ocsLeaveService: OcsLeaveService) {}
+  constructor(private ocsLeaveService: OcsLeaveService) { }
 
   ngOnInit(): void {
     // Pakia maombi yote mawili wakati Dashboard inafunguliwa
@@ -37,26 +41,34 @@ export class OcsDashboardComponent implements OnInit {
   refreshDashboard(): void {
     this.loadApplications();
     this.loadForwardedApplications();
-      this.loadHigherLevelApplicationsCount();
+  this.loadDashboardCounts();
 
   }
 
-  loadHigherLevelApplicationsCount(): void {
+  // Kupata dashboard counts kutoka backend
+loadDashboardCounts(): void {
 
-  this.ocsLeaveService.getHigherLevelApplicationsCount().subscribe({
+  this.ocsLeaveService.getOCSDashboardCounts().subscribe({
 
-    next: (total) => {
-      this.totalHigherLevelApplications = total || 0;
+    next: (data) => {
+      this.waitingForOCS = data.waitingForOCS || 0;
+      this.waitingForRPC = data.waitingForRPC || 0;
+      this.waitingForCP = data.waitingForCP || 0;
+      this.waitingForIGP = data.waitingForIGP || 0;
     },
 
     error: (error) => {
-      console.error('Error loading higher level applications:', error);
-      this.totalHigherLevelApplications = 0;
+      console.error('Error loading OCS dashboard counts:', error);
+
+      this.waitingForOCS = 0;
+      this.waitingForRPC = 0;
+      this.waitingForCP = 0;
+      this.waitingForIGP = 0;
     }
 
   });
-
 }
+ 
 
   // Maombi yanayosubiri OCS
   loadApplications(): void {
@@ -122,8 +134,8 @@ export class OcsDashboardComponent implements OnInit {
   }
 
   get totalOCSForwarded(): number {
-  return this.forwardedApplications.length;
-}
+    return this.forwardedApplications.length;
+  }
 
   // Kupeleka ombi kwa OCD
   forwardApplication(application: LeaveApplication): void {
@@ -230,9 +242,9 @@ export class OcsDashboardComponent implements OnInit {
   }
 
   // Jumla ya maombi yanayosubiri
-  get totalApplications(): number {
-    return this.applications.length;
-  }
+get totalApplications(): number {
+  return this.waitingForOCS;
+}
 
   // Jumla ya siku za maombi yanayosubiri
   get totalRequestedDays(): number {

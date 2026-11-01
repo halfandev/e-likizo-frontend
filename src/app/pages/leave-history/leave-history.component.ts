@@ -26,10 +26,15 @@ export class LeaveHistoryComponent  implements OnInit{
     familyMembers: FamilyMember[] = [];
   
     summary: LeaveSummary = {
-      approved: 0,
-      rejected: 0,
-      pending: 0
-    };
+  total: 0,
+  ocs: 0,
+  ocd: 0,
+  rpc: 0,
+  cp: 0,
+  igp: 0,
+  approved: 0,
+  rejected: 0
+};
   
     loading = false;
     loadingTypes = false;
@@ -359,5 +364,35 @@ export class LeaveHistoryComponent  implements OnInit{
   
       return labels[status] || status;
     }
+
+    downloadApprovalLetter(applicationId: number): void {
+
+  this.leaveApplicationService
+    .downloadApprovalLetter(applicationId)
+    .subscribe({
+
+      next: (blob: Blob) => {
+
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+
+        link.href = url;
+        link.download = `Leave-Approval-${applicationId}.pdf`;
+
+        link.click();
+
+        window.URL.revokeObjectURL(url);
+      },
+
+      error: (error) => {
+        console.error('PDF download error:', error);
+
+        this.errorMessage =
+          'Imeshindikana kupakua barua ya kibali cha likizo.';
+      }
+
+    });
+}
 
 }

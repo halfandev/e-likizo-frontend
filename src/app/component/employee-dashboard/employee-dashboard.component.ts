@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { LeaveSummaryService } from 'src/app/services/leave-summary.service';
 import { LeaveSummary } from 'src/app/models/leave-summary.model';
@@ -10,17 +9,24 @@ import { LeaveSummary } from 'src/app/models/leave-summary.model';
 })
 export class EmployeeDashboardComponent implements OnInit {
 
-
-  
   summary: LeaveSummary = {
+    total: 0,
+    ocs: 0,
+    ocd: 0,
+    rpc: 0,
+    cp: 0,
+    igp: 0,
     approved: 0,
-    rejected: 0,
-    pending: 0
+    rejected: 0
   };
 
-
-  
-  
+  get pending(): number {
+  return this.summary.ocs +
+         this.summary.ocd +
+         this.summary.rpc +
+         this.summary.cp +
+         this.summary.igp;
+}
 
   loading = true;
   errorMessage = '';
@@ -38,16 +44,19 @@ export class EmployeeDashboardComponent implements OnInit {
     this.errorMessage = '';
 
     this.leaveSummaryService.getMyLeaveSummary().subscribe({
-      next: (response) => {
+      next: (response: LeaveSummary) => {
         this.summary = response;
         this.loading = false;
       },
       error: (error) => {
         console.error('Failed to load leave summary:', error);
+
         this.errorMessage =
           'Imeshindikana kupata takwimu za likizo. Tafadhali jaribu tena.';
+
         this.loading = false;
       }
     });
   }
+
 }

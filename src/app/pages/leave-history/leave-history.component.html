@@ -62,7 +62,7 @@
                 class="form-control"
                 formControlName="leaveTypeId">
 
-                <option value="">-- Select Leave Type --</option>
+                <option value>-- Select Leave Type --</option>
 
                 <option
                   *ngFor="let type of leaveTypes"
@@ -274,6 +274,7 @@
               <th>Days</th>
               <th>Status</th>
               <th>action</th>
+              <th>Download</th>
             </tr>
           </thead>
 
@@ -294,17 +295,33 @@
               </td>
 
               <td>
-  <button
-    type="button"
-    class="btn-view-workflow"
-    title="View Leave Workflow"
-    [routerLink]="['/employee/leave-workflow', application.id]">
+                <button
+                  type="button"
+                  class="btn-view-workflow"
+                  title="View Leave Workflow"
+                  [routerLink]="['/employee/leave-workflow', application.id]">
 
-    <i class="bi bi-eye"></i>
-    View
+                  <i class="bi bi-eye"></i>
+                  View
 
-  </button>
-</td>
+                </button>
+
+                
+              </td>
+
+              <td>
+                <!-- Download Approval PDF -->
+                <button
+                  *ngIf="application.status === 'COMPLETED'"
+                  type="button"
+                  class="btn-download-pdf"
+                  (click)="downloadApprovalLetter(application.id)"
+                  title="Download Approval Letter">
+
+                  <i class="bi bi-file-earmark-pdf"></i>
+                  Download PDF
+                </button>
+              </td>
             </tr>
 
             <tr *ngIf="myApplications.length === 0">

@@ -28,7 +28,7 @@
     {{ errorMessage }}
   </div>
 
-<!-- Summary Cards -->
+<!-- OCS Dashboard Summary Cards -->
 <div class="summary-grid">
 
   <!-- Waiting for OCS -->
@@ -36,42 +36,46 @@
     <div class="summary-icon blue">
       <i class="fa fa-file-text"></i>
     </div>
+
     <div>
-      <h3>{{ totalApplications }}</h3>
+      <h3>{{ waitingForOCS }}</h3>
       <p>Waiting for OCS</p>
     </div>
   </div>
 
-  <!-- Total Requested Days -->
+  <!-- Waiting for RPC -->
   <div class="summary-card">
     <div class="summary-icon orange">
-      <i class="fa fa-calendar"></i>
-    </div>
-    <div>
-      <h3>{{ totalRequestedDays }}</h3>
-      <p>Total Requested Days</p>
-    </div>
-  </div>
-
-  <!-- Waiting for OCD -->
-  <div class="summary-card">
-    <div class="summary-icon green">
       <i class="fa fa-share"></i>
     </div>
+
     <div>
-      <h3>{{ totalOCSForwarded }}</h3>
-      <p>Waiting for OCD</p>
+      <h3>{{ waitingForRPC }}</h3>
+      <p>Waiting for RPC</p>
     </div>
   </div>
 
-  <!-- Total at OCD, RPC and CP -->
+  <!-- Waiting for CP -->
   <div class="summary-card">
-    <div class="summary-icon purple">
+    <div class="summary-icon green">
       <i class="fa fa-sitemap"></i>
     </div>
+
     <div>
-      <h3>{{ totalHigherLevelApplications }}</h3>
-      <p>At OCD, RPC & CP</p>
+      <h3>{{ waitingForCP }}</h3>
+      <p>Waiting for CP</p>
+    </div>
+  </div>
+
+  <!-- Waiting for IGP -->
+  <div class="summary-card">
+    <div class="summary-icon purple">
+      <i class="fa fa-check-circle"></i>
+    </div>
+
+    <div>
+      <h3>{{ waitingForIGP }}</h3>
+      <p>Waiting for IGP</p>
     </div>
   </div>
 
