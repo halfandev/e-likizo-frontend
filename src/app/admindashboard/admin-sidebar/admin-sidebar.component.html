@@ -25,6 +25,33 @@
 
     <a
       class="nav-link"
+      routerLink="/ocs-dashboard"
+      *ngIf="isOcs">
+      <span class="nav-icon">
+        <i class="fa fa-calendar"></i> </span>
+      <span class="nav-text">ocs Dashboard</span>
+    </a>
+
+     <a
+      class="nav-link"
+      routerLink="/ocd-dashboard"
+      *ngIf="isOcd">
+      <span class="nav-icon">
+        <i class="fa fa-calendar"></i> </span>
+      <span class="nav-text">ocD Dashboard</span>
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/rpc-dashboard"
+      *ngIf="isRpc">
+      <span class="nav-icon">
+        <i class="fa fa-calendar"></i> </span>
+      <span class="nav-text">Rpc Dashboard</span>
+    </a>
+
+    <a
+      class="nav-link"
       routerLink="/hr-dashboard"
       *ngIf="isHR">
       <span class="nav-icon">
@@ -51,6 +78,8 @@
         <i class="fa fa-calendar"></i> </span>
       <span class="nav-text">Employee Dashboard</span>
     </a>
+
+    
 
      <a
       class="nav-link"

@@ -15,9 +15,12 @@ export class ManageLeaveApplicationsComponent implements OnInit {
 
   applications: LeaveApplication[] = [];
 
+  // Ruhusu kutumia enum kwenye HTML
+  LeaveStatus = LeaveStatus;
+
   loading = false;
   processingId: number | null = null;
-  selectedStatus = 'ALL';
+  selectedStatus: LeaveStatus | 'ALL' = 'ALL';
 
   successMessage = '';
   errorMessage = '';
@@ -62,141 +65,90 @@ export class ManageLeaveApplicationsComponent implements OnInit {
     );
   }
 
-  get pendingCount(): number {
+  // Maombi yaliyopo kwa OCS
+  get ocsCount(): number {
     return this.applications.filter(
-      item => item.status === 'PENDING'
+      item => item.status === LeaveStatus.OCS
     ).length;
   }
 
-  get underReviewCount(): number {
+  // Maombi yaliyopo kwa OCD
+  get ocdCount(): number {
     return this.applications.filter(
-      item => item.status === 'UNDER_REVIEW'
+      item => item.status === LeaveStatus.OCD
     ).length;
   }
 
-  get approvedCount(): number {
+  // Maombi yaliyopo kwa RPC
+  get rpcCount(): number {
     return this.applications.filter(
-      item => item.status === 'APPROVED'
+      item => item.status === LeaveStatus.RPC
+    ).length;
+  }
+
+  // Maombi yaliyopo kwa CP
+  get cpCount(): number {
+    return this.applications.filter(
+      item => item.status === LeaveStatus.CP
+    ).length;
+  }
+
+  // Maombi yaliyopo kwa IGP
+  get igpCount(): number {
+    return this.applications.filter(
+      item => item.status === LeaveStatus.IGP
+    ).length;
+  }
+
+  // Maombi yaliyoidhinishwa kikamilifu
+  get completedCount(): number {
+    return this.applications.filter(
+      item => item.status === LeaveStatus.COMPLETED
     ).length;
   }
 
   get rejectedCount(): number {
     return this.applications.filter(
-      item => item.status === 'REJECTED'
+      item => item.status === LeaveStatus.REJECTED
     ).length;
   }
 
-  markUnderReview(application: LeaveApplication): void {
-    this.processApplication(
-      application,
-      'review'
-    );
+  get cancelledCount(): number {
+    return this.applications.filter(
+      item => item.status === LeaveStatus.CANCELLED
+    ).length;
   }
 
-  approveApplication(application: LeaveApplication): void {
-    if (!window.confirm(
-      `Una uhakika unataka kuidhinisha ombi #${application.id}?`
-    )) {
-      return;
+  sstatusLabel(status: LeaveStatus): string {
+    switch (status) {
+      case LeaveStatus.OCS:
+        return 'Waiting for OCS';
+
+      case LeaveStatus.OCD:
+        return 'Waiting for OCD';
+
+      case LeaveStatus.RPC:
+        return 'Waiting for RPC';
+
+      case LeaveStatus.CP:
+        return 'Waiting for CP';
+
+      case LeaveStatus.IGP:
+        return 'Waiting for IGP';
+
+      case LeaveStatus.COMPLETED:
+        return 'Completed / Approved';
+
+      case LeaveStatus.REJECTED:
+        return 'Rejected';
+
+      case LeaveStatus.CANCELLED:
+        return 'Cancelled';
+
+      default:
+        return status;
     }
-
-    this.processApplication(application, 'approve');
   }
-
-  rejectApplication(application: LeaveApplication): void {
-    if (!window.confirm(
-      `Una uhakika unataka kukataa ombi #${application.id}?`
-    )) {
-      return;
-    }
-
-    this.processApplication(application, 'reject');
-  }
-
-  private processApplication(
-    application: LeaveApplication,
-    action: 'review' | 'approve' | 'reject'
-  ): void {
-
-    this.processingId = application.id;
-    this.successMessage = '';
-    this.errorMessage = '';
-
-    let request$;
-
-    switch (action) {
-      case 'review':
-        request$ =
-          this.leaveApplicationService.markUnderReview(application.id);
-        break;
-
-      case 'approve':
-        request$ =
-          this.leaveApplicationService.approveApplication(application.id);
-        break;
-
-      case 'reject':
-        request$ =
-          this.leaveApplicationService.rejectApplication(application.id);
-        break;
-    }
-
-    request$.subscribe({
-      next: (updatedApplication) => {
-        const index = this.applications.findIndex(
-          item => item.id === updatedApplication.id
-        );
-
-        if (index !== -1) {
-          this.applications[index] = updatedApplication;
-          this.applications = [...this.applications];
-        }
-
-        const messages: Record<'review' | 'approve' | 'reject', string> = {
-          review: 'Ombi limewekwa kwenye hatua ya review.',
-          approve: 'Ombi limeidhinishwa kikamilifu.',
-          reject: 'Ombi limekataliwa.'
-        };
-
-        this.successMessage = messages[action];
-        this.processingId = null;
-      },
-      error: (error) => {
-        console.error('Failed to process application:', error);
-
-        this.errorMessage =
-          error.status === 403
-            ? 'Huna ruhusa ya kufanya kitendo hiki.'
-            : error.status === 409
-              ? 'Ombi hili tayari limefanyiwa maamuzi.'
-              : 'Imeshindwa kubadilisha hali ya ombi.';
-
-        this.processingId = null;
-      }
-    });
-  }
-
-  sstatusLabel(status: string): string {
-  switch (status) {
-    case 'PENDING':
-      return 'Pending';
-
-    case 'UNDER_REVIEW':
-      return 'Under Review';
-
-    case 'APPROVED':
-      return 'Approved';
-
-    case 'REJECTED':
-      return 'Rejected';
-
-    case 'CANCELLED':
-      return 'Cancelled';
-
-    default:
-      return status;
-  }
-}
 
   trackByApplicationId(
     index: number,

@@ -1,91 +1,463 @@
+
 <div class="abe-admin-register-page">
+
   <div class="abe-admin-register-card">
 
+    <!-- HEADER -->
     <div class="abe-admin-register-header">
+
       <div class="abe-admin-register-icon">
         <i class="bi bi-person-plus-fill"></i>
       </div>
 
       <h3>Register New User</h3>
-      <p>Create an employee account for e-Likizo</p>
+      <p>Create an employee or authority account for e-Likizo</p>
+
     </div>
 
+    <!-- SUCCESS -->
     <div *ngIf="successMessage" class="abe-admin-alert abe-admin-success">
       <i class="bi bi-check-circle-fill"></i>
       {{ successMessage }}
     </div>
 
+    <!-- ERROR -->
     <div *ngIf="errorMessage" class="abe-admin-alert abe-admin-error">
       <i class="bi bi-exclamation-circle-fill"></i>
       {{ errorMessage }}
     </div>
 
+    <div *ngIf="locationError" class="abe-admin-alert abe-admin-error">
+      {{ locationError }}
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="abe-wizard-progress">
+
+      <div class="abe-wizard-steps">
+
+        <div
+          class="abe-wizard-step"
+          [class.active]="currentStep === 1"
+          [class.completed]="currentStep > 1">
+
+          <div class="abe-step-number">
+            <i *ngIf="currentStep > 1" class="bi bi-check-lg"></i>
+            <span *ngIf="currentStep === 1">1</span>
+          </div>
+
+          <span>User Info</span>
+        </div>
+
+        <div class="abe-step-line"></div>
+
+        <div
+          class="abe-wizard-step"
+          [class.active]="currentStep === 2"
+          [class.completed]="currentStep > 2">
+
+          <div class="abe-step-number">
+            <i *ngIf="currentStep > 2" class="bi bi-check-lg"></i>
+            <span *ngIf="currentStep <= 2">2</span>
+          </div>
+
+          <span *ngIf="isAuthorityRole">Location</span>
+          <span *ngIf="!isAuthorityRole">Review</span>
+        </div>
+
+        <ng-container *ngIf="isAuthorityRole">
+          <div class="abe-step-line"></div>
+
+          <div
+            class="abe-wizard-step"
+            [class.active]="currentStep === 3">
+
+            <div class="abe-step-number">3</div>
+            <span>Review</span>
+          </div>
+        </ng-container>
+
+      </div>
+
+      <div class="abe-progress-track">
+        <div
+          class="abe-progress-fill"
+          [style.width.%]="stepProgress">
+        </div>
+      </div>
+
+    </div>
+
     <form [formGroup]="registrationForm" (ngSubmit)="registerUser()">
 
-      <div class="abe-admin-field">
-        <label for="adminFullName">Full Name</label>
-        <input
-          id="adminFullName"
-          type="text"
-          class="abe-admin-input"
-          formControlName="fullName"
-          placeholder="Enter full name">
+      <!-- ================================= -->
+      <!-- STEP 1: USER INFORMATION -->
+      <!-- ================================= -->
 
-        <small *ngIf="registrationForm.controls.fullName.touched &&
-                      registrationForm.controls.fullName.invalid">
-          Full name is required.
-        </small>
+      <div *ngIf="currentStep === 1" class="abe-wizard-content">
+
+        <div class="abe-step-heading">
+          <h4>User Information</h4>
+          <p>Enter the basic details of the new user.</p>
+        </div>
+
+        <div class="abe-admin-field">
+
+          <label for="adminFullName">Full Name</label>
+
+          <input
+            id="adminFullName"
+            type="text"
+            class="abe-admin-input"
+            formControlName="fullName"
+            placeholder="Enter full name">
+
+          <small
+            *ngIf="registrationForm.controls.fullName.touched &&
+                   registrationForm.controls.fullName.invalid">
+            Full name is required.
+          </small>
+
+        </div>
+
+        <div class="abe-admin-field">
+
+          <label for="adminEmail">Email Address</label>
+
+          <input
+            id="adminEmail"
+            type="email"
+            class="abe-admin-input"
+            formControlName="email"
+            placeholder="employee@company.com">
+
+          <small
+            *ngIf="registrationForm.controls.email.touched &&
+                   registrationForm.controls.email.hasError('required')">
+            Email is required.
+          </small>
+
+          <small
+            *ngIf="registrationForm.controls.email.touched &&
+                   registrationForm.controls.email.hasError('email')">
+            Enter a valid email address.
+          </small>
+
+        </div>
+
+        <div class="abe-admin-field">
+
+          <label for="adminRole">User Role</label>
+
+          <select
+            id="adminRole"
+            class="abe-admin-input"
+            formControlName="role">
+
+            <option value="" disabled>Select user role</option>
+
+            <option *ngFor="let role of roles" [value]="role">
+              {{ role }}
+            </option>
+
+          </select>
+
+          <small
+            *ngIf="registrationForm.controls.role.touched &&
+                   registrationForm.controls.role.invalid">
+            Please select a role.
+          </small>
+
+        </div>
+
       </div>
 
-      <div class="abe-admin-field">
-        <label for="adminEmail">Email Address</label>
-        <input
-          id="adminEmail"
-          type="email"
-          class="abe-admin-input"
-          formControlName="email"
-          placeholder="employee@company.com">
+      <!-- ================================= -->
+      <!-- STEP 2: AUTHORITY LOCATION -->
+      <!-- ================================= -->
 
-        <small *ngIf="registrationForm.controls.email.touched &&
-                      registrationForm.controls.email.hasError('required')">
-          Email is required.
-        </small>
+      <div *ngIf="currentStep === 2 && isAuthorityRole"
+           class="abe-wizard-content">
 
-        <small *ngIf="registrationForm.controls.email.touched &&
-                      registrationForm.controls.email.hasError('email')">
-          Enter a valid email address.
-        </small>
+        <div class="abe-step-heading">
+          <h4>Authority Location</h4>
+          <p>Select the area where this authority will operate.</p>
+        </div>
+
+        <!-- ADMINISTRATIVE -->
+        <div class="abe-admin-field">
+
+          <label for="administrativeId">Administrative / Force</label>
+
+          <select
+            id="administrativeId"
+            class="abe-admin-input"
+            formControlName="administrativeId"
+            (change)="onAdministrativeChange()">
+
+            <option [ngValue]="null">Select Administrative</option>
+
+            <option
+              *ngFor="let item of administratives"
+              [ngValue]="item.id">
+              {{ item.name }}
+            </option>
+
+          </select>
+
+          <small
+            *ngIf="registrationForm.controls.administrativeId.touched &&
+                   registrationForm.controls.administrativeId.invalid">
+            Please select Administrative.
+          </small>
+
+        </div>
+
+        <!-- REGION -->
+        <div class="abe-admin-field" *ngIf="showRegion">
+
+          <label for="regionId">Region</label>
+
+          <select
+            id="regionId"
+            class="abe-admin-input"
+            formControlName="regionId"
+            (change)="onRegionChange()"
+            [disabled]="!registrationForm.controls.administrativeId.value">
+
+            <option [ngValue]="null">Select Region</option>
+
+            <option *ngFor="let item of regions" [ngValue]="item.id">
+              {{ item.name }}
+            </option>
+
+          </select>
+
+          <small
+            *ngIf="registrationForm.controls.regionId.touched &&
+                   registrationForm.controls.regionId.invalid">
+            Please select Region.
+          </small>
+
+        </div>
+
+        <!-- DISTRICT -->
+        <div class="abe-admin-field" *ngIf="showDistrict">
+
+          <label for="districtId">District</label>
+
+          <select
+            id="districtId"
+            class="abe-admin-input"
+            formControlName="districtId"
+            (change)="onDistrictChange()"
+            [disabled]="!registrationForm.controls.regionId.value">
+
+            <option [ngValue]="null">Select District</option>
+
+            <option *ngFor="let item of districts" [ngValue]="item.id">
+              {{ item.name }}
+            </option>
+
+          </select>
+
+          <small
+            *ngIf="registrationForm.controls.districtId.touched &&
+                   registrationForm.controls.districtId.invalid">
+            Please select District.
+          </small>
+
+        </div>
+
+        <!-- STATION -->
+        <div class="abe-admin-field" *ngIf="showStation">
+
+          <label for="stationId">Police Station</label>
+
+          <select
+            id="stationId"
+            class="abe-admin-input"
+            formControlName="stationId"
+            [disabled]="!registrationForm.controls.districtId.value">
+
+            <option [ngValue]="null">Select Station</option>
+
+            <option *ngFor="let item of stations" [ngValue]="item.id">
+              {{ item.name }}
+            </option>
+
+          </select>
+
+          <small
+            *ngIf="registrationForm.controls.stationId.touched &&
+                   registrationForm.controls.stationId.invalid">
+            Please select Station.
+          </small>
+
+        </div>
+
+        <div *ngIf="loadingLocations" class="abe-location-loading">
+          <i class="bi bi-arrow-repeat"></i>
+          Loading location information...
+        </div>
+
+        <div class="abe-role-info">
+
+          <i class="bi bi-info-circle-fill"></i>
+
+          <span *ngIf="selectedRole === 'OCS'">
+            OCS will be assigned to the selected Police Station.
+          </span>
+
+          <span *ngIf="selectedRole === 'OCD'">
+            OCD will be assigned to the selected District.
+          </span>
+
+          <span *ngIf="selectedRole === 'RPC'">
+            RPC will be assigned to the selected Region.
+          </span>
+
+          <span *ngIf="selectedRole === 'CP'">
+            CP is applicable to Zanzibar Police Force (ZPF).
+          </span>
+
+          <span *ngIf="selectedRole === 'IGP'">
+            IGP is assigned to the selected Police Force.
+          </span>
+
+        </div>
+
       </div>
 
-      <div class="abe-admin-field">
-        <label for="adminRole">User Role</label>
-        <select
-          id="adminRole"
-          class="abe-admin-input"
-          formControlName="role">
+      <!-- ================================= -->
+      <!-- STEP 2: REVIEW FOR NON-AUTHORITY -->
+      <!-- ================================= -->
 
-          <option value="" disabled>Select user role</option>
+      <div *ngIf="currentStep === 2 && !isAuthorityRole"
+           class="abe-wizard-content">
 
-          <option *ngFor="let role of roles" [value]="role">
-            {{ role }}
-          </option>
-        </select>
+        <div class="abe-step-heading">
+          <h4>Review User Details</h4>
+          <p>Confirm the information before creating the account.</p>
+        </div>
 
-        <small *ngIf="registrationForm.controls.role.touched &&
-                      registrationForm.controls.role.invalid">
-          Please select a role.
-        </small>
+        <div class="abe-review-list">
+
+          <div class="abe-review-item">
+            <span>Full Name</span>
+            <strong>{{ registrationForm.controls.fullName.value }}</strong>
+          </div>
+
+          <div class="abe-review-item">
+            <span>Email Address</span>
+            <strong>{{ registrationForm.controls.email.value }}</strong>
+          </div>
+
+          <div class="abe-review-item">
+            <span>User Role</span>
+            <strong>{{ selectedRole }}</strong>
+          </div>
+
+        </div>
+
       </div>
 
-      <button
-        type="submit"
-        class="abe-admin-submit"
-        [disabled]="loading">
+      <!-- ================================= -->
+      <!-- STEP 3: REVIEW AUTHORITY -->
+      <!-- ================================= -->
 
-        <i *ngIf="!loading" class="bi bi-person-check-fill"></i>
-        <span *ngIf="!loading">Create User</span>
-        <span *ngIf="loading">Creating user...</span>
-      </button>
+      <div *ngIf="currentStep === 3 && isAuthorityRole"
+           class="abe-wizard-content">
+
+        <div class="abe-step-heading">
+          <h4>Review User Details</h4>
+          <p>Confirm the authority and assigned location.</p>
+        </div>
+
+        <div class="abe-review-list">
+
+          <div class="abe-review-item">
+            <span>Full Name</span>
+            <strong>{{ registrationForm.controls.fullName.value }}</strong>
+          </div>
+
+          <div class="abe-review-item">
+            <span>Email Address</span>
+            <strong>{{ registrationForm.controls.email.value }}</strong>
+          </div>
+
+          <div class="abe-review-item">
+            <span>User Role</span>
+            <strong>{{ selectedRole }}</strong>
+          </div>
+
+          <div class="abe-review-item">
+            <span>Administrative</span>
+            <strong>{{ administrativeName }}</strong>
+          </div>
+
+          <div class="abe-review-item" *ngIf="showRegion">
+            <span>Region</span>
+            <strong>{{ regionName }}</strong>
+          </div>
+
+          <div class="abe-review-item" *ngIf="showDistrict">
+            <span>District</span>
+            <strong>{{ districtName }}</strong>
+          </div>
+
+          <div class="abe-review-item" *ngIf="showStation">
+            <span>Police Station</span>
+            <strong>{{ stationName }}</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ================================= -->
+      <!-- NAVIGATION BUTTONS -->
+      <!-- ================================= -->
+
+      <div class="abe-wizard-actions">
+
+        <button
+          *ngIf="currentStep > 1"
+          type="button"
+          class="abe-btn-previous"
+          (click)="previousStep()">
+
+          <i class="bi bi-arrow-left"></i>
+          Previous
+
+        </button>
+
+        <button
+          *ngIf="currentStep < totalSteps"
+          type="button"
+          class="abe-btn-next"
+          [disabled]="loadingLocations"
+          (click)="nextStep()">
+
+          Next
+          <i class="bi bi-arrow-right"></i>
+
+        </button>
+
+        <button
+          *ngIf="currentStep === totalSteps"
+          type="submit"
+          class="abe-admin-submit"
+          [disabled]="loading || loadingLocations">
+
+          <i *ngIf="!loading" class="bi bi-person-check-fill"></i>
+
+          <span *ngIf="!loading">Create User</span>
+          <span *ngIf="loading">Creating user...</span>
+
+        </button>
+
+      </div>
 
     </form>
 
@@ -95,4 +467,5 @@
     </div>
 
   </div>
+
 </div>

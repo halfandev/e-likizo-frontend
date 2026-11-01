@@ -25,6 +25,17 @@ export class AdminSidebarComponent {
     return this.currentUser?.role?.toUpperCase() === 'EMPLOYEE';
   }
 
+  get isOcs(): boolean {
+    return this.currentUser?.role?.toUpperCase() === 'OCS';
+  }
+
+    get isOcd(): boolean {
+    return this.currentUser?.role?.toUpperCase() === 'OCD';
+  }
+
+    get isRpc(): boolean {
+    return this.currentUser?.role?.toUpperCase() === 'RPC';
+  }
   // User Management dropdown
   isUserMenuOpen = false;
 

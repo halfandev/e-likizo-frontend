@@ -1,11 +1,14 @@
 
-export type LeaveStatus =
-  | 'PENDING'
-  | 'UNDER_REVIEW'
-  | 'APPROVED'
-  | 'REJECTED'
-  | 'CANCELLED';
-
+export enum LeaveStatus {
+  OCS = 'OCS',
+  OCD = 'OCD',
+  RPC = 'RPC',
+  CP = 'CP',
+  IGP = 'IGP',
+  COMPLETED = 'COMPLETED',
+  REJECTED = 'REJECTED',
+  CANCELLED = 'CANCELLED'
+}
 export interface LeaveApplication {
   id: number;
   employeeId: number;

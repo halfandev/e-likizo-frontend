@@ -1,7 +1,11 @@
+
 import { Component } from '@angular/core';
-import { Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
-import { AuthService, RegisterRequest } from 'src/app/services/auth.service';
+import {
+  AuthService,
+  RegisterRequest
+} from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -15,7 +19,8 @@ export class RegistrationComponent {
   errorMessage = '';
 
   registrationForm = this.fb.group({
-    fullName: ['', Validators.required],
+    checknumber: ['', Validators.required],
+    forcenumber: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]]
   });
 
@@ -34,14 +39,17 @@ export class RegistrationComponent {
     }
 
     const request: RegisterRequest = {
-      fullName: this.registrationForm.value.fullName!.trim(),
+      checknumber: this.registrationForm.value.checknumber!.trim(),
+      forcenumber: this.registrationForm.value.forcenumber!.trim(),
       email: this.registrationForm.value.email!.trim()
     };
 
     this.loading = true;
 
     this.authService.register(request)
-      .pipe(finalize(() => this.loading = false))
+      .pipe(
+        finalize(() => this.loading = false)
+      )
       .subscribe({
         next: (response) => {
           this.successMessage = response;
@@ -52,9 +60,9 @@ export class RegistrationComponent {
             typeof error.error === 'string'
               ? error.error
               : error.error?.message ||
+                error.error?.error ||
                 'Registration failed. Please try again.';
         }
       });
   }
-
 }

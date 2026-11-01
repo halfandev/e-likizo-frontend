@@ -34,6 +34,10 @@ import { ManageLeaveApplicationsComponent } from './pages/admin/manage-leave-app
 import { ApplyLeaveComponent } from './pages/leave/apply-leave/apply-leave.component';
 import { FamilyMembersComponent } from './pages/family-members/family-members.component';
 import { LeaveHistoryComponent } from './pages/leave-history/leave-history.component';
+import { OcsDashboardComponent } from './component/ocs-dashboard/ocs-dashboard.component';
+import { OcdDashboardComponent } from './component/ocd-dashboard/ocd-dashboard.component';
+import { RpcDashboardComponent } from './component/rpc-dashboard/rpc-dashboard.component';
+import { LeaveWorkflowComponent } from './component/leave-workflow/leave-workflow.component';
 
 
 @NgModule({
@@ -67,6 +71,10 @@ import { LeaveHistoryComponent } from './pages/leave-history/leave-history.compo
     ApplyLeaveComponent,
     FamilyMembersComponent,
     LeaveHistoryComponent,
+    OcsDashboardComponent,
+    OcdDashboardComponent,
+    RpcDashboardComponent,
+    LeaveWorkflowComponent,
   ],
   imports: [
     BrowserModule,

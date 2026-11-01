@@ -73,7 +73,19 @@ export class LoginComponent {
             window.location.href = '/dashboard';
           } else if (response.role?.toUpperCase() == 'EMPLOYEE') {
             window.location.href = '/employee-dashboard';
-          } else {
+
+          } else if (response.role?.toUpperCase() == 'OCS') {
+            window.location.href = '/ocs-dashboard';
+
+          }else if (response.role?.toUpperCase() == 'OCD') {
+            window.location.href = '/ocd-dashboard';
+          
+        
+          }else if (response.role?.toUpperCase() == 'RPC') {
+            window.location.href = '/rpc-dashboard';
+          
+            
+          }else {
             window.location.href = '/hr-dashboard'
           }
 

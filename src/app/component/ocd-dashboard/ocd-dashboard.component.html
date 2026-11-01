@@ -1,0 +1,367 @@
+<div class="ocd-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h2>OCD Dashboard</h2>
+      <p>Manage and review leave applications forwarded by OCS in your district.</p>
+    </div>
+
+    <button
+      class="btn-refresh"
+      (click)="refreshDashboard()"
+      [disabled]="loading || submitting">
+
+      <i class="fa fa-refresh"></i>
+      {{ loading ? 'Loading...' : 'Refresh' }}
+
+    </button>
+  </div>
+
+  <!-- Success Message -->
+  <div class="alert alert-success" *ngIf="successMessage">
+    <i class="fa fa-check-circle"></i>
+    {{ successMessage }}
+  </div>
+
+  <!-- Error Message -->
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    <i class="fa fa-exclamation-circle"></i>
+    {{ errorMessage }}
+  </div>
+
+  <div class="alert alert-danger" *ngIf="countsError">
+    <i class="fa fa-exclamation-circle"></i>
+    {{ countsError }}
+  </div>
+
+  <!-- Dashboard Summary Cards -->
+  <div class="summary-grid">
+
+    <!-- Waiting for OCD -->
+    <div class="summary-card">
+      <div class="summary-icon orange">
+        <i class="fa fa-inbox"></i>
+      </div>
+
+      <div>
+        <h3>{{ dashboardCounts.waitingForOCD }}</h3>
+        <p>Waiting for OCD</p>
+      </div>
+    </div>
+
+    <!-- Waiting for RPC -->
+    <div class="summary-card">
+      <div class="summary-icon blue">
+        <i class="fa fa-share"></i>
+      </div>
+
+      <div>
+        <h3>{{ dashboardCounts.waitingForRPC }}</h3>
+        <p>Waiting for RPC</p>
+      </div>
+    </div>
+
+    <!-- Waiting for CP -->
+    <div class="summary-card">
+      <div class="summary-icon purple">
+        <i class="fa fa-sitemap"></i>
+      </div>
+
+      <div>
+        <h3>{{ dashboardCounts.waitingForCP }}</h3>
+        <p>Waiting for CP</p>
+      </div>
+    </div>
+
+    <!-- Waiting for IGP -->
+    <div class="summary-card">
+      <div class="summary-icon green">
+        <i class="fa fa-check-circle"></i>
+      </div>
+
+      <div>
+        <h3>{{ dashboardCounts.waitingForIGP }}</h3>
+        <p>Waiting for IGP</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Additional Summary -->
+  <div class="summary-grid additional-summary">
+
+    <div class="summary-card">
+      <div class="summary-icon blue">
+        <i class="fa fa-file-text"></i>
+      </div>
+
+      <div>
+        <h3>{{ totalApplications }}</h3>
+        <p>Applications Waiting for Your Review</p>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon orange">
+        <i class="fa fa-calendar"></i>
+      </div>
+
+      <div>
+        <h3>{{ totalRequestedDays }}</h3>
+        <p>Total Requested Days</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Applications Table -->
+  <div class="content-card">
+
+    <div class="table-heading">
+      <div>
+        <h3>Incoming Leave Applications</h3>
+        <p>Applications forwarded by OCS for your review.</p>
+      </div>
+
+      <span class="application-count">
+        {{ totalApplications }} Applications
+      </span>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-state" *ngIf="loading">
+      <i class="fa fa-spinner fa-spin"></i>
+      Loading leave applications...
+    </div>
+
+    <!-- Table -->
+    <div
+      class="table-responsive"
+      *ngIf="!loading && applications.length > 0">
+
+      <table class="table">
+
+        <thead>
+          <tr>
+            <th>Application ID</th>
+            <th>Employee ID</th>
+            <th>Leave Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Days</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let application of applications">
+
+            <td>#{{ application.id }}</td>
+
+            <td>{{ application.employeeId }}</td>
+
+            <td>{{ application.leaveTypeName }}</td>
+
+            <td>
+              {{ application.startDate | date:'dd MMM yyyy' }}
+            </td>
+
+            <td>
+              {{ application.endDate | date:'dd MMM yyyy' }}
+            </td>
+
+            <td>{{ application.requestedDays }}</td>
+
+            <td>
+              <span class="status-badge">
+                {{ application.status }}
+              </span>
+            </td>
+
+            <td>
+              <button
+                class="btn-view"
+                (click)="viewApplication(application)">
+
+                <i class="fa fa-eye"></i>
+                Review
+
+              </button>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- Empty State -->
+    <div
+      class="empty-state"
+      *ngIf="!loading && applications.length === 0">
+
+      <i class="fa fa-folder-open"></i>
+
+      <h3>No Incoming Leave Applications</h3>
+
+      <p>
+        There are currently no applications waiting for your review.
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Application Details Modal -->
+  <div
+    class="modal-backdrop"
+    *ngIf="selectedApplication"
+    (click)="closeDetails()">
+
+    <div
+      class="application-modal"
+      (click)="$event.stopPropagation()">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+
+        <div>
+          <h3>Leave Application Details</h3>
+          <p>Application #{{ selectedApplication.id }}</p>
+        </div>
+
+        <button
+          class="btn-close"
+          (click)="closeDetails()"
+          [disabled]="submitting">
+
+          &times;
+
+        </button>
+
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+
+        <div class="details-grid">
+
+          <div class="detail-item">
+            <label>Employee ID</label>
+            <strong>{{ selectedApplication.employeeId }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <label>Leave Type</label>
+            <strong>{{ selectedApplication.leaveTypeName }}</strong>
+          </div>
+
+          <div class="detail-item">
+            <label>Start Date</label>
+            <strong>
+              {{ selectedApplication.startDate | date:'dd MMM yyyy' }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <label>End Date</label>
+            <strong>
+              {{ selectedApplication.endDate | date:'dd MMM yyyy' }}
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <label>Requested Days</label>
+            <strong>
+              {{ selectedApplication.requestedDays }} Days
+            </strong>
+          </div>
+
+          <div class="detail-item">
+            <label>Current Status</label>
+            <strong>{{ selectedApplication.status }}</strong>
+          </div>
+
+        </div>
+
+        <!-- Reason -->
+        <div class="reason-section">
+
+          <label>Reason for Leave</label>
+
+          <p>
+            {{ selectedApplication.reason || 'No reason provided.' }}
+          </p>
+
+        </div>
+
+        <!-- OCD Comments -->
+        <div class="comment-section">
+
+          <label for="ocdComment">
+            OCD Comments / Remarks
+          </label>
+
+          <textarea
+            id="ocdComment"
+            rows="4"
+            [value]="comment"
+            (input)="comment = $any($event.target).value"
+            placeholder="Write your comments or reason for rejection...">
+          </textarea>
+
+        </div>
+
+        <!-- Error inside modal -->
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+
+        <button
+          class="btn-cancel"
+          (click)="closeDetails()"
+          [disabled]="submitting">
+
+          Close
+
+        </button>
+
+        <button
+          class="btn-reject"
+          (click)="rejectApplication(selectedApplication)"
+          [disabled]="submitting">
+
+          <i class="fa fa-times"></i>
+
+          {{ submitting ? 'Processing...' : 'Reject' }}
+
+        </button>
+
+        <button
+          class="btn-forward"
+          (click)="forwardApplication(selectedApplication)"
+          [disabled]="submitting">
+
+          <i class="fa fa-share"></i>
+
+          {{ submitting ? 'Processing...' : 'Forward to RPC' }}
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

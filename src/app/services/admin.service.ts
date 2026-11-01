@@ -28,6 +28,10 @@ export interface AdminCreateUserRequest {
   fullName: string;
   email: string;
   role: string;
+  administrativeId?: number;
+  regionId?: number;
+  districtId?: number;
+  stationId?: number;
 }
 
 @Injectable({

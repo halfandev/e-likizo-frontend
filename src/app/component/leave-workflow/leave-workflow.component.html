@@ -1,0 +1,187 @@
+
+<div class="workflow-page">
+
+  <!-- HEADER -->
+  <div class="workflow-header">
+
+    <div>
+      <h2>Leave Workflow Tracking</h2>
+      <p>Track the progress of your leave application.</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn-back"
+      (click)="goBack()">
+      <i class="bi bi-arrow-left"></i>
+      Back to Leave History
+    </button>
+
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-state" *ngIf="loading">
+    <span class="spinner-border spinner-border-sm"></span>
+    Loading leave workflow...
+  </div>
+
+  <!-- ERROR -->
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <ng-container *ngIf="tracking && !loading">
+
+    <!-- APPLICATION DETAILS -->
+    <div class="application-card">
+
+      <div class="application-card-header">
+        <div>
+          <span class="small-label">APPLICATION NUMBER</span>
+          <h3>#{{ tracking.application.id }}</h3>
+        </div>
+
+        <span
+          class="status-badge"
+          [ngClass]="'status-' +
+          tracking.application.status.toLowerCase()">
+
+          {{ getStatusLabel(tracking.application.status) }}
+
+        </span>
+      </div>
+
+      <div class="application-details-grid">
+
+        <div>
+          <span>Leave Type</span>
+          <strong>{{ tracking.application.leaveTypeName }}</strong>
+        </div>
+
+        <div>
+          <span>Start Date</span>
+          <strong>{{ tracking.application.startDate }}</strong>
+        </div>
+
+        <div>
+          <span>End Date</span>
+          <strong>{{ tracking.application.endDate }}</strong>
+        </div>
+
+        <div>
+          <span>Requested Days</span>
+          <strong>{{ tracking.application.requestedDays }} Days</strong>
+        </div>
+
+      </div>
+
+      <div class="application-reason">
+        <span>Reason for Leave</span>
+        <p>{{ tracking.application.reason }}</p>
+      </div>
+
+    </div>
+
+    <!-- WORKFLOW HISTORY -->
+    <div class="history-card">
+
+      <div class="history-heading">
+        <div>
+          <h3>Approval Journey</h3>
+          <p>Complete history of your leave application.</p>
+        </div>
+
+        <span class="history-count">
+          {{ history.length }} Activities
+        </span>
+      </div>
+
+      <div class="empty-history" *ngIf="history.length === 0">
+        <i class="bi bi-clock-history"></i>
+        <strong>No workflow history available</strong>
+        <p>Your application history will appear here as it is processed.</p>
+      </div>
+
+      <div class="workflow-timeline" *ngIf="history.length > 0">
+
+        <div
+          class="timeline-item"
+          *ngFor="let item of history; let last = last">
+
+          <div class="timeline-marker">
+            <span class="timeline-dot"
+              [ngClass]="{
+                'rejected-dot': item.newStatus === 'REJECTED',
+                'completed-dot': item.newStatus === 'COMPLETED'
+              }">
+              <i
+                class="bi"
+                [ngClass]="item.newStatus === 'REJECTED'
+                  ? 'bi-x-lg'
+                  : item.newStatus === 'COMPLETED'
+                    ? 'bi-check-lg'
+                    : 'bi-check2'">
+              </i>
+            </span>
+
+            <span
+              class="timeline-line"
+              *ngIf="!last">
+            </span>
+          </div>
+
+          <div class="timeline-content">
+
+            <div class="timeline-top">
+
+              <div>
+                <h4>{{ getActionLabel(item.action) }}</h4>
+
+                <span class="actor-email">
+                  {{ item.actorEmail }}
+                </span>
+              </div>
+
+              <span class="timeline-date">
+                {{ item.actionAt | date:'medium' }}
+              </span>
+
+            </div>
+
+            <div class="status-transition">
+
+              <span *ngIf="item.previousStatus">
+                {{ getStatusLabel(item.previousStatus) }}
+              </span>
+
+              <i
+                class="bi bi-arrow-right"
+                *ngIf="item.previousStatus">
+              </i>
+
+              <strong>
+                {{ getStatusLabel(item.newStatus) }}
+              </strong>
+
+            </div>
+
+            <div
+              class="timeline-comment"
+              *ngIf="item.comment">
+
+              <strong>Comment / Remarks</strong>
+              <p>{{ item.comment }}</p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>

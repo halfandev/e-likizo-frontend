@@ -26,6 +26,10 @@ import { ManageLeaveApplicationsComponent } from './pages/admin/manage-leave-app
 import { ApplyLeaveComponent } from './pages/leave/apply-leave/apply-leave.component';
 import { FamilyMembersComponent } from './pages/family-members/family-members.component';
 import { LeaveHistoryComponent } from './pages/leave-history/leave-history.component';
+import { OcsDashboardComponent } from './component/ocs-dashboard/ocs-dashboard.component';
+import { OcdDashboardComponent } from './component/ocd-dashboard/ocd-dashboard.component';
+import { RpcDashboardComponent } from './component/rpc-dashboard/rpc-dashboard.component';
+import { LeaveWorkflowComponent } from './component/leave-workflow/leave-workflow.component';
 
 
 const routes: Routes = [
@@ -89,11 +93,42 @@ const routes: Routes = [
         data: { roles: ['HR'] }
       },
       {
+        path: 'ocs-dashboard',
+        component: OcsDashboardComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['OCS'] }
+      },
+
+      {
+        path: 'ocd-dashboard',
+        component: OcdDashboardComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['OCD'] }
+      },
+
+      {
+        path: 'rpc-dashboard',
+        component: RpcDashboardComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['RPC'] }
+      },
+
+
+
+      {
         path: 'employee-dashboard',
         component: EmployeeDashboardComponent,
         canActivate: [AuthGuard],
         data: { roles: ['EMPLOYEE'] }
       },
+
+       {
+  path: 'employee/leave-workflow/:id',
+        component: LeaveWorkflowComponent,
+        canActivate: [AuthGuard],
+        data: { roles: ['EMPLOYEE'] }
+      },
+      
       {
         path: 'admin/administratives',
         component: AdministrativesComponent,

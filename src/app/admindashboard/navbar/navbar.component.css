@@ -125,3 +125,12 @@
     font-size: 12px !important;
   }
 }
+
+
+.admin-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  width: 100%;
+  background-color: #fff;
+}

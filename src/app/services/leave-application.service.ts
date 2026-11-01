@@ -7,6 +7,7 @@ import {
   LeaveApplication,
   LeaveApplicationRequest
 } from '../models/leave-application.model';
+import { LeaveWorkflowTracking } from '../models/leave-workflow-history.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,9 @@ export class LeaveApplicationService {
 
   private readonly adminUrl =
     'http://localhost:8080/api/admin/leaves';
+
+    private readonly apiUrl =
+    'http://localhost:8080/api/leaves';
 
   constructor(private http: HttpClient) {}
 
@@ -81,4 +85,13 @@ export class LeaveApplicationService {
       {}
     );
   }
+
+  getMyWorkflowHistory(
+  applicationId: number
+): Observable<LeaveWorkflowTracking> {
+
+  return this.http.get<LeaveWorkflowTracking>(
+    `${this.apiUrl}/my-applications/${applicationId}/workflow`
+  );
+}
 }

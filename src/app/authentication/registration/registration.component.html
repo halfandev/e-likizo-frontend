@@ -1,3 +1,4 @@
+
 <div class="abe-registration-page">
 
   <div class="abe-registration-card">
@@ -7,23 +8,27 @@
         <i class="bi bi-person-plus"></i>
       </div>
 
-      <h3>Register New User</h3>
+      <h3>Employee Registration</h3>
 
       <p>
-        Enter employee details to create an e-Likizo account.
+        Enter your employee details to create an e-Likizo account.
       </p>
     </div>
 
+    <!-- Success message -->
     <div
       *ngIf="successMessage"
       class="abe-alert abe-alert-success">
+
       <i class="bi bi-check-circle"></i>
       {{ successMessage }}
     </div>
 
+    <!-- Error message -->
     <div
       *ngIf="errorMessage"
       class="abe-alert abe-alert-error">
+
       <i class="bi bi-exclamation-circle"></i>
       {{ errorMessage }}
     </div>
@@ -32,27 +37,55 @@
       [formGroup]="registrationForm"
       (ngSubmit)="register()">
 
+      <!-- Check Number -->
       <div class="abe-form-group">
-        <label for="fullName">Full Name</label>
+
+        <label for="checknumber">Check Number</label>
 
         <input
-          id="fullName"
+          id="checknumber"
           type="text"
-          formControlName="fullName"
+          formControlName="checknumber"
           class="abe-form-control"
-          placeholder="Enter employee full name">
+          placeholder="Enter your check number">
 
         <small
           class="abe-validation-error"
           *ngIf="
-            registrationForm.controls.fullName.touched &&
-            registrationForm.controls.fullName.invalid
+            registrationForm.controls.checknumber.touched &&
+            registrationForm.controls.checknumber.hasError('required')
           ">
-          Full name is required.
+          Check Number is required.
         </small>
+
       </div>
 
+      <!-- Force Number -->
       <div class="abe-form-group">
+
+        <label for="forcenumber">Force Number</label>
+
+        <input
+          id="forcenumber"
+          type="text"
+          formControlName="forcenumber"
+          class="abe-form-control"
+          placeholder="Enter your force number">
+
+        <small
+          class="abe-validation-error"
+          *ngIf="
+            registrationForm.controls.forcenumber.touched &&
+            registrationForm.controls.forcenumber.hasError('required')
+          ">
+          Force Number is required.
+        </small>
+
+      </div>
+
+      <!-- Email -->
+      <div class="abe-form-group">
+
         <label for="email">Email Address</label>
 
         <input
@@ -60,7 +93,7 @@
           type="email"
           formControlName="email"
           class="abe-form-control"
-          placeholder="employee@company.com">
+          placeholder="employee@example.com">
 
         <small
           class="abe-validation-error"
@@ -79,8 +112,10 @@
           ">
           Enter a valid email address.
         </small>
+
       </div>
 
+      <!-- Submit button -->
       <button
         type="submit"
         class="abe-register-button"
@@ -101,16 +136,19 @@
     </form>
 
     <p class="abe-registration-note">
-  Login credentials will be sent to the employee's email.
-</p>
+      Login credentials will be sent to your email.
+    </p>
 
-<div class="abe-login-link">
-  <span>Already have an account?</span>
+    <div class="abe-login-link">
 
-  <a routerLink="/login">
-    <i class="bi bi-box-arrow-in-right"></i>
-    Login here
-  </a>
+      <span>Already have an account?</span>
+
+      <a routerLink="/login">
+        <i class="bi bi-box-arrow-in-right"></i>
+        Login here
+      </a>
+
+    </div>
 
   </div>
 

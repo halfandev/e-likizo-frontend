@@ -8,10 +8,13 @@ export interface LoginRequest {
   password: string;
 }
 
+
 export interface RegisterRequest {
-  fullName: string;
+  checknumber: string;
+  forcenumber: string;
   email: string;
 }
+
 
 export interface LoginResponse {
   token: string;
@@ -130,14 +133,18 @@ export class AuthService {
   }
 
   // RESET PASSWORD
-  resetPassword(
-    request: ResetPasswordRequest
-  ): Observable<ApiMessageResponse> {
-    return this.http.post<ApiMessageResponse>(
-      `${this.apiUrl}/reset-password`,
-      request
-    );
-  }
+
+resetPassword(request: {
+  token: string;
+  newPassword: string;
+  confirmPassword: string;
+}) {
+  return this.http.post<{ message: string }>(
+    `${this.apiUrl}/reset-password`,
+    request
+  );
+}
+
 
   // CHANGE PASSWORD
   changePassword(

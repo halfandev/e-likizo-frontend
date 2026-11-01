@@ -273,6 +273,7 @@
               <th>End Date</th>
               <th>Days</th>
               <th>Status</th>
+              <th>action</th>
             </tr>
           </thead>
 
@@ -291,6 +292,19 @@
                   {{ getStatusLabel(application.status) }}
                 </span>
               </td>
+
+              <td>
+  <button
+    type="button"
+    class="btn-view-workflow"
+    title="View Leave Workflow"
+    [routerLink]="['/employee/leave-workflow', application.id]">
+
+    <i class="bi bi-eye"></i>
+    View
+
+  </button>
+</td>
             </tr>
 
             <tr *ngIf="myApplications.length === 0">

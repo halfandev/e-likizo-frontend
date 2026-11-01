@@ -597,3 +597,24 @@
     align-items: flex-start;
   }
 }
+
+
+.btn-view-workflow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-view-workflow:hover {
+  background: #2563eb;
+  color: #fff;
+}
